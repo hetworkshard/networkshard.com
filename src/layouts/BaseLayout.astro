@@ -1,0 +1,384 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Het Patel — Cybersecurity Engineer & VAPT Specialist" } = Astro.props;
+const currentPath = Astro.url.pathname;
+const buildCommit =
+  import.meta.env.PUBLIC_COMMIT_SHA?.slice(0, 7) ||
+  import.meta.env.GITHUB_SHA?.slice(0, 7) ||
+  'dev';
+
+const pathSegments = currentPath
+  .split('/')
+  .filter(Boolean)
+  .map((s) => decodeURIComponent(s));
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  ...pathSegments.map((seg, i) => ({
+    label: seg.replace(/-/g, ' '),
+    href: '/' + pathSegments.slice(0, i + 1).map((s) => encodeURIComponent(s)).join('/'),
+  })),
+];
+---
+
+<!DOCTYPE html>
+<html class="bg-background text-foreground" lang="en-US">
+<head>
+  <meta charset="utf-8" />
+  <script is:inline>
+    (function () {
+      const theme =
+        localStorage.getItem('theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content={description} />
+  <meta name="author" content="Het Patel" />
+  <meta property="og:title" content={`${title} | networkshard`} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="canonical" href={Astro.url.href} />
+  <title>{title} — networkshard</title>
+</head>
+<body class="flex min-h-screen flex-col gap-y-6 font-mono">
+
+  <!-- Header -->
+  <header class="bg-background/80 sticky top-0 z-50 w-full backdrop-blur-xl border-b border-border/40">
+      <div class="mx-auto flex h-16 max-w-3xl items-center justify-between px-4">
+        <a href="/" class="flex items-center gap-2 group" aria-label="Home">
+          <span class="font-mono text-sm font-bold tracking-tight text-foreground">networkshard</span>
+        </a>
+
+        <div class="flex items-center gap-2 md:gap-6">
+          <nav class="hidden items-center gap-1 text-sm font-medium md:flex" aria-label="Primary navigation">
+            <a href="/blog"
+              class:list={[
+              "px-3 py-2 rounded-full transition-all duration-200",
+                currentPath.startsWith('/blog')
+                  ? "text-foreground bg-foreground/5"
+                  : "text-foreground/80 hover:text-foreground hover:bg-foreground/5"
+              ]}>Blog</a>
+            <a href="/projects"
+              class:list={[
+              "px-3 py-2 rounded-full transition-all duration-200",
+                currentPath.startsWith('/projects')
+                  ? "text-foreground bg-foreground/5"
+                  : "text-foreground/80 hover:text-foreground hover:bg-foreground/5"
+              ]}>Projects</a>
+            <a href="/about"
+              class:list={[
+              "px-3 py-2 rounded-full transition-all duration-200",
+                currentPath.startsWith('/about')
+                  ? "text-foreground bg-foreground/5"
+                  : "text-foreground/80 hover:text-foreground hover:bg-foreground/5"
+              ]}>About</a>
+          </nav>
+
+          <button
+            type="button"
+            class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:text-muted-foreground hover:[&_svg]:text-foreground size-9 rounded-full hover:bg-muted"
+            title="Search (Ctrl+K)"
+            aria-label="Search"
+            aria-haspopup="dialog"
+            aria-controls="search-dialog"
+          >
+            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </button>
+
+          <button id="theme-toggle"
+            class="inline-flex items-center justify-center size-8 rounded-full hover:bg-muted transition-colors"
+            aria-label="Toggle theme">
+            <svg class="icon-sun size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg class="icon-moon size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+        </div>
+      </div>
+  </header>
+
+  <div id="search-dialog" class="fixed inset-0 z-[60] hidden items-start justify-center bg-background/60 backdrop-blur-sm">
+    <div class="relative z-10 w-[640px] max-w-[calc(100vw-2rem)] pt-16">
+      <div class="search-dialog__box relative bg-background border border-border rounded-lg shadow-lg">
+        <div class="relative">
+          <svg class="size-4 text-muted-foreground absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input
+            id="search-input"
+            placeholder="Search articles..."
+            class="w-full h-14 pl-12 pr-12 bg-transparent border-0 rounded-lg text-base outline-none focus:ring-2 focus:ring-primary/20 focus:ring-inset placeholder:text-muted-foreground/60"
+            aria-label="Search articles"
+            type="text"
+          />
+          <button
+            type="button"
+            class="absolute right-2 top-1/2 -translate-y-1/2 inline-flex size-9 items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+            aria-label="Close search"
+            data-search-close
+          >
+            <svg class="size-4" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="search-results" class="search-dialog__box relative z-10 mt-2 overflow-y-hidden rounded-lg bg-background border border-border shadow-lg">
+        <div class="p-4 text-xs text-muted-foreground">
+          Start typing to search posts.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main id="main-content" class="w-full mx-auto flex grow flex-col gap-y-6 px-4 pb-8 max-w-5xl min-h-[calc(100vh-8rem)] relative overflow-hidden">
+    <nav aria-label="Breadcrumb" class="pt-6">
+      <ol class="font-mono text-[11px] uppercase tracking-widest text-muted-foreground/80 flex flex-wrap items-center gap-1.5 break-words sm:gap-2.5" role="list" data-slot="breadcrumb-list">
+        {breadcrumbs.map((c, idx) => {
+          const isLast = idx === breadcrumbs.length - 1;
+          const isHome = c.href === '/';
+          return (
+            <li class="inline-flex items-center gap-1.5">
+              {idx !== 0 && <span class="text-muted-foreground/40" aria-hidden="true">&gt;</span>}
+              {isLast ? (
+                <span class="inline-flex items-center gap-1 text-foreground/90">
+                  {isHome ? (
+                    <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+                  ) : (
+                    <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h8"/><path d="M8 12h8"/></svg>
+                  )}
+                  {c.label}
+                </span>
+              ) : (
+                <a href={c.href} class="inline-flex items-center gap-1 hover:text-foreground transition-colors">
+                  {isHome ? (
+                    <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+                  ) : (
+                    <svg class="size-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="M8 8h8"/><path d="M8 12h8"/></svg>
+                  )}
+                  {c.label}
+                </a>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </nav>
+    <slot />
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-border/40">
+    <div class="mx-auto max-w-3xl px-4 py-6">
+      <div class="flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:items-center">
+        <div class="flex flex-col items-center gap-3 font-mono text-[11px] sm:flex-row sm:items-center sm:gap-3">
+          <span class="text-xs text-muted-foreground/80">
+            <svg class="size-3 text-primary/60 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg>
+            <span class="text-foreground/70">{buildCommit}</span>
+          </span>
+          <span class="hidden sm:inline text-muted-foreground/40 text-xs">&middot;</span>
+          <span class="text-xs text-foreground/80">&copy; {new Date().getFullYear()} Het Patel</span>
+          <span class="hidden sm:inline text-muted-foreground/40 text-xs">&middot;</span>
+          <nav class="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1.5 text-xs text-foreground/80" aria-label="Footer navigation">
+            <a href="https://github.com/hetworkshard" target="_blank" rel="noopener" class="hover:text-foreground transition-colors">GitHub</a>
+            <span class="text-muted-foreground/40">&middot;</span>
+            <a href="https://www.linkedin.com/in/hetpatel9/" target="_blank" rel="noopener" class="hover:text-foreground transition-colors">LinkedIn</a>
+            <span class="text-muted-foreground/40">&middot;</span>
+            <a href="/rss.xml" class="hover:text-foreground transition-colors">RSS</a>
+            <span class="text-muted-foreground/40">&middot;</span>
+            <a href="https://hettt.medium.com/" target="_blank" rel="noopener" class="hover:text-foreground transition-colors">Medium</a>
+            <span class="text-muted-foreground/40">&middot;</span>
+            <a href="https://tryhackme.com/p/hettt" target="_blank" rel="noopener" class="hover:text-foreground transition-colors">TryHackMe</a>
+            <span class="text-muted-foreground/40">&middot;</span>
+            <a href="mailto:awesomehet1@gmail.com" class="hover:text-foreground transition-colors">Email</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Theme toggle script -->
+  <script is:inline>
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    });
+  </script>
+
+  <!-- Spotlight effect -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      document.querySelectorAll('.bento-card:not(.bento-hero)').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          card.style.setProperty('--spotlight-x', `${e.clientX - rect.left}px`);
+          card.style.setProperty('--spotlight-y', `${e.clientY - rect.top}px`);
+        });
+      });
+    });
+  </script>
+
+  <!-- Blog search dialog script -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchButton = document.querySelector('[aria-controls="search-dialog"]');
+      const dialog = document.getElementById('search-dialog');
+      const input = document.getElementById('search-input');
+      const results = document.getElementById('search-results');
+      let posts = [];
+      let loaded = false;
+
+      async function loadPosts() {
+        if (loaded) return;
+        try {
+          const res = await fetch('/blog/search.json');
+          if (!res.ok) return;
+          posts = await res.json();
+          loaded = true;
+        } catch {
+          // ignore
+        }
+      }
+
+      function render(query) {
+        if (!results) return;
+        const q = (query || '').toLowerCase().trim();
+        const filtered = !q
+          ? posts.slice(0, 4)
+          : posts.filter((p) =>
+              (p.title && p.title.toLowerCase().includes(q)) ||
+              (p.description && p.description.toLowerCase().includes(q))
+            ).slice(0, 20);
+
+        if (!filtered.length) {
+          results.innerHTML = '<div class="p-4 text-xs text-muted-foreground">No matches found.</div>';
+          return;
+        }
+
+        const heading = q ? 'Results' : 'Recent posts';
+        const items = filtered.map((p) => {
+          if (!q) {
+            return `
+              <a href="/blog/${p.slug}" class="block px-4 py-3 hover:bg-muted/60 transition-colors">
+                <h3 class="blog-card-title font-mono text-sm font-semibold leading-snug text-foreground/90">${p.title}</h3>
+              </a>
+            `;
+          }
+
+          const date = p.date ? new Date(p.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+          return `
+            <a href="/blog/${p.slug}" class="block px-4 py-3 hover:bg-muted/60 transition-colors">
+              <div class="flex flex-col gap-1">
+                <h3 class="blog-card-title font-mono text-sm font-semibold leading-snug text-foreground/90">${p.title}</h3>
+                ${p.description ? `<p class="font-mono text-[11px] leading-relaxed text-muted-foreground line-clamp-2">${p.description}</p>` : ''}
+                <div class="flex flex-wrap items-center gap-1.5 text-[10px] font-mono text-muted-foreground/80">
+                  ${date ? `<time>${date}</time>` : ''}
+                  ${p.readTime ? `<span>&middot;</span><span>${p.readTime}</span>` : ''}
+                </div>
+              </div>
+            </a>
+          `;
+        }).join('');
+
+        results.innerHTML = `
+          <div class="p-3 border-b border-border/60 text-[11px] font-mono uppercase tracking-wider text-muted-foreground">${heading}</div>
+          <div class="py-1">${items}</div>
+        `;
+      }
+
+      function openDialog() {
+        if (!dialog) return;
+        dialog.classList.remove('hidden');
+        dialog.classList.add('flex');
+        loadPosts().then(() => {
+          render('');
+          if (input) {
+            input.value = '';
+            setTimeout(() => input.focus(), 10);
+          }
+        });
+      }
+
+      function closeDialog() {
+        if (!dialog) return;
+        dialog.classList.add('hidden');
+        dialog.classList.remove('flex');
+      }
+
+      searchButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        openDialog();
+      });
+
+      dialog?.addEventListener('click', (e) => {
+        if (e.target === dialog) closeDialog();
+      });
+
+      dialog?.querySelector('[data-search-close]')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeDialog();
+      });
+
+      input?.addEventListener('input', (e) => {
+        const target = e.target;
+        render(target && 'value' in target ? target.value : '');
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+          e.preventDefault();
+          openDialog();
+        } else if (e.key === 'Escape') {
+          closeDialog();
+        }
+      });
+    });
+  </script>
+
+  <!-- Text scramble -->
+  <script is:inline>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#$!-_+';
+      const duration = 700, interval = 40, baseDelay = 200, stagger = 160;
+      function scramble(el, delay) {
+        const original = el.textContent || '';
+        const iterations = Math.round(duration / interval);
+        let count = 0;
+        setTimeout(() => {
+          const timer = setInterval(() => {
+            const revealed = Math.floor(count / iterations * original.length);
+            el.textContent = original.split('').map((ch, i) =>
+              ch === ' ' || ch === '.' || i < revealed
+                ? ch : chars[Math.floor(Math.random() * chars.length)]
+            ).join('');
+            count++;
+            if (count > iterations) { el.textContent = original; clearInterval(timer); }
+          }, interval);
+        }, delay);
+      }
+      document.querySelectorAll('.identity-title .identity-title__line').forEach((el, i) => {
+        scramble(el, baseDelay + i * stagger);
+      });
+    });
+  </script>
+</body>
+</html>
+
+<style>
+  [data-theme="dark"] .icon-sun { display: none; }
+  [data-theme="light"] .icon-moon { display: none; }
+  :root .icon-moon { display: none; }
+  [data-theme="dark"] .icon-moon { display: block; }
+  [data-theme="dark"] .icon-sun { display: none; }
+  :root .icon-sun { display: block; }
+</style>

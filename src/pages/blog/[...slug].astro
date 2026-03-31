@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article>
+    <nav class="mb-6" aria-label="breadcrumb">
+      <a href="/blog" class="text-xs font-mono text-muted-foreground hover:text-foreground transition-colors">&larr; Back to blog</a>
+    </nav>
+
+    <header class="mb-8 pb-6 border-b border-border/40">
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-3">
+        {post.data.title}
+      </h1>
+      <div class="flex flex-wrap items-center gap-1.5 text-[11px] font-mono text-muted-foreground mb-4">
+        <time>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+        {post.data.readTime && <><span class="text-muted-foreground/50">&middot;</span><span>{post.data.readTime}</span></>}
+      </div>
+      {post.data.tags && post.data.tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {post.data.tags.map((tag: string) => (
+            <span class="inline-block text-xs font-mono font-medium px-2 py-0.5 rounded bg-muted text-muted-foreground">{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <div class="prose max-w-none">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

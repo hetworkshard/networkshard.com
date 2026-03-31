@@ -1,0 +1,445 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Geist';
+  src: url('/fonts/GeistVF.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/fonts/GeistMonoVF.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Plus Jakarta Sans';
+  src: url('/fonts/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  src: url('/fonts/montserrat-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    /* Matched to merox.dev palette (blue) */
+    --background: #fafafa;
+    --header-background: #f4f5f5;
+    --foreground: #151819;
+    --primary: #63959c;
+    --primary-foreground: #ffffff;
+    --primary-hover: var(--primary);
+    --secondary: #eceeee;
+    --secondary-foreground: #1c2021;
+    --muted: #eceeee;
+    --muted-foreground: #6f787b;
+    --accent: #eaeff0;
+    --accent-foreground: #283c3e;
+    --border: #e2e4e4;
+    --ring: #63959c;
+    --popover: var(--background);
+    --popover-foreground: var(--foreground);
+    --bento-inner: 1.25rem;
+    --spotlight-x: 0px;
+    --spotlight-y: 0px;
+  }
+
+  [data-theme="dark"] {
+    /* Matched to merox.dev dark palette (blue) */
+    --background: #131416;
+    --header-background: #0e0f11;
+    --foreground: #eaebec;
+    --primary: #85b1b7;
+    --primary-foreground: #131416;
+    --primary-hover: var(--primary);
+    --secondary: #1f2123;
+    --secondary-foreground: #e7e8e9;
+    --muted: #1f2123;
+    --muted-foreground: #94999e;
+    --accent: #243132;
+    --accent-foreground: #b8d2d5;
+    --border: #292b2e;
+    --ring: #85b1b7;
+    --popover: #17191c;
+    --popover-foreground: #eaebec;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+  }
+}
+
+/* Bento Card Base */
+.bento-card {
+  background: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: var(--bento-inner);
+  transition: background 0.15s ease, border-color 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    500px circle at var(--spotlight-x) var(--spotlight-y),
+    color-mix(in srgb, var(--primary) 10%, transparent),
+    transparent 40%
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bento-card:hover::before {
+  opacity: 1;
+}
+
+.bento-card:hover {
+  background: color-mix(in srgb, var(--accent) 28%, var(--background));
+  border-color: color-mix(in srgb, var(--primary) 22%, var(--border));
+}
+
+.bento-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Subtle background lines (hero identity) */
+.bento-hero__identity::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--border) 55%, transparent) 0px,
+      color-mix(in srgb, var(--border) 55%, transparent) 1px,
+      transparent 1px,
+      transparent 10px
+    );
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-theme="dark"] .bento-hero__identity::before {
+  opacity: 0.22;
+}
+
+/* Neo Buttons */
+.btn-neo-primary {
+  @apply inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm font-bold rounded-md transition-all;
+  font-family: 'Montserrat', var(--font-sans);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border: 2px solid var(--primary);
+}
+
+[data-theme="dark"] .btn-neo-primary {
+  box-shadow: 4px 4px color-mix(in srgb, var(--primary) 70%, black);
+}
+
+[data-theme="dark"] .btn-neo-primary:hover {
+  box-shadow: 0 0 color-mix(in srgb, var(--primary) 70%, black);
+}
+
+.btn-neo-outline {
+  @apply inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-sm font-bold rounded-md transition-all;
+  font-family: 'Montserrat', var(--font-sans);
+  background: var(--background);
+  color: var(--foreground);
+  border: 2px solid var(--foreground);
+}
+
+[data-theme="dark"] .btn-neo-outline {
+  box-shadow: 4px 4px 0 var(--foreground);
+}
+
+[data-theme="dark"] .btn-neo-outline:hover {
+  box-shadow: 0 0 0 var(--foreground);
+}
+
+/* Identity Title */
+.identity-title {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* Pinned Blog */
+.pinned-changelog-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: var(--primary);
+  flex-shrink: 0;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+/* Blog card hover */
+.blog-card-link:hover .blog-card-title {
+  color: var(--primary-hover, var(--primary));
+}
+
+/* Ensure blog titles can use Geist Mono when requested */
+.blog-card-title.font-mono {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+}
+
+/* Projects: table-like list */
+.projects-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.projects-table > li {
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
+}
+
+.projects-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  padding: 1rem;
+  margin-left: -1rem;
+  margin-right: -1rem;
+  border-radius: 10px;
+  transition: background 0.15s ease;
+}
+
+.projects-row:hover {
+  background: color-mix(in srgb, var(--accent) 22%, var(--background));
+}
+
+@media (min-width: 768px) {
+  .projects-row {
+    grid-template-columns: 1.35fr 1.9fr 1fr;
+    align-items: start;
+    gap: 1.25rem;
+    padding: 1.1rem 1rem;
+  }
+}
+
+.projects-row__title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.projects-row__path {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+
+.projects-row__headline {
+  color: color-mix(in srgb, var(--foreground) 92%, transparent);
+}
+
+.projects-row__desc {
+  color: var(--muted-foreground);
+}
+
+.projects-row__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.projects-row__label {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--foreground) 55%, transparent);
+}
+
+.projects-row__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.projects-row__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem 0.45rem;
+  border-radius: 9999px;
+  font-size: 11px;
+  line-height: 1.25;
+  background: color-mix(in srgb, var(--muted) 80%, transparent);
+  color: color-mix(in srgb, var(--foreground) 65%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
+}
+
+/* About page: skills strip */
+.skills-strip {
+  position: relative;
+  overflow: hidden;
+  padding: 0.25rem 0;
+  mask-image: linear-gradient(to right, transparent 0%, black 56px, black calc(100% - 56px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 56px, black calc(100% - 56px), transparent 100%);
+}
+
+.skills-track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  width: max-content;
+  will-change: transform;
+  animation: skills-marquee 30s linear infinite;
+}
+
+.skills-track::-webkit-scrollbar {
+  display: none;
+}
+
+.skills-strip:hover .skills-track {
+  animation-play-state: paused;
+}
+
+@keyframes skills-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.about-profile-card {
+  border: 0;
+}
+
+.about-profile-card:hover {
+  border-color: transparent;
+}
+
+/* Prose styles for blog content */
+.prose {
+  color: color-mix(in srgb, var(--foreground) 80%, transparent);
+  @apply leading-relaxed;
+}
+.prose h1 { @apply text-2xl font-bold tracking-tight text-foreground mt-8 mb-4; }
+.prose h2 { @apply text-xl font-semibold tracking-tight text-foreground mt-6 mb-3; }
+.prose h3 { @apply text-lg font-semibold text-foreground mt-5 mb-2; }
+.prose p { @apply mb-4; }
+.prose ul, .prose ol { @apply mb-4 pl-6; }
+.prose li { @apply mb-1; }
+.prose strong { @apply text-foreground font-semibold; }
+.prose a { @apply text-primary hover:underline; }
+.prose blockquote {
+  @apply border-l-2 border-primary pl-4 my-4 italic text-muted-foreground;
+}
+.prose code {
+  @apply font-mono text-sm bg-muted px-1.5 py-0.5 rounded;
+}
+.prose pre {
+  @apply bg-muted border border-border rounded-md p-4 overflow-x-auto my-4;
+}
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+.prose img {
+  @apply rounded-md my-4 mx-auto block;
+}
+.prose hr {
+  @apply border-border my-6;
+}
+
+/* Main content width override from preview */
+#main-content {
+  max-width: 800px;
+}
+
+/* Main content subtle background lines (linus/merox-style) */
+#main-content::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--border) 55%, transparent) 0px,
+      color-mix(in srgb, var(--border) 55%, transparent) 1px,
+      transparent 1px,
+      transparent 12px
+    );
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(60% 60% at 50% 30%, black 20%, transparent 80%);
+}
+
+[data-theme="dark"] #main-content::before {
+  opacity: 0.12;
+}
+
+#main-content > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* "Let's connect" bento card */
+.bento-connect {
+  border-radius: 12px;
+  border-color: color-mix(in srgb, var(--border) 70%, var(--primary));
+}
+
+.bento-connect:hover {
+  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+}
+
+.bento-connect .connect-item {
+  color: color-mix(in srgb, var(--foreground) 85%, transparent);
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.bento-connect:hover .connect-item {
+  color: var(--foreground);
+}
+
+.bento-connect .connect-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.bento-connect .connect-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
