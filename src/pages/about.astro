@@ -92,6 +92,49 @@ const skills = [
     </div>
   </section>
 
+  <!-- CVE -->
+  <section class="pb-8 md:pb-12">
+    <h2 class="text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">CVE</h2>
+    <div class="bento-card">
+      <div class="flex items-start justify-between gap-4">
+        <div class="min-w-0">
+          <p class="text-lg font-bold text-foreground">Arbitrary API Token Creation</p>
+          <p class="text-sm text-muted-foreground mt-0.5">InvenTree Security Advisory</p>
+        </div>
+        <span class="shrink-0 inline-flex items-center rounded-md border border-border/60 bg-muted/60 px-2.5 py-1 text-xs font-mono font-semibold text-foreground">
+          8.3/10
+        </span>
+      </div>
+
+      <div class="mt-4 space-y-2">
+        <p class="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground">Impact</p>
+        <p class="text-sm text-muted-foreground leading-relaxed">
+          Any authenticated InvenTree user can create a valid API token attributed to any other user in the system — including administrators and superusers — by supplying the target's user ID in the <span class="font-mono">user</span> field of a <span class="font-mono">POST /api/user/tokens/</span> request. The returned token is immediately usable for full API authentication as the target user, from any network location, with no further interaction required.
+        </p>
+      </div>
+
+      <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="rounded-lg border border-border/60 bg-muted/40 p-3">
+          <p class="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground">CVE ID</p>
+          <p class="mt-1 text-sm font-mono text-foreground">CVE-2026-35478</p>
+        </div>
+        <div class="rounded-lg border border-border/60 bg-muted/40 p-3">
+          <p class="text-xs font-mono font-semibold uppercase tracking-wider text-muted-foreground">Score</p>
+          <p class="mt-1 text-sm font-mono text-foreground">8.3/10</p>
+        </div>
+      </div>
+
+      <a
+        href="https://github.com/inventree/InvenTree/security/advisories/GHSA-qh5j-c28q-c4rg"
+        target="_blank"
+        rel="noopener"
+        class="inline-block mt-4 text-xs font-mono text-primary hover:text-primary-hover transition-colors"
+      >
+        View advisory on GitHub &rarr;
+      </a>
+    </div>
+  </section>
+
   <!-- Certifications -->
   <section class="pb-8 md:pb-12">
     <h2 class="text-xs font-mono font-semibold text-muted-foreground uppercase tracking-wider mb-4">Certifications</h2>
