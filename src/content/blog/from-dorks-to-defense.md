@@ -7,7 +7,7 @@ readTime: "5 min read"
 pinned: true
 ---
 
-![](https://cdn-images-1.medium.com/max/800/1*FET9FfzNnFiAum2nLDPMJA.jpeg)
+![](/images/blog/from-dorks-to-defense/1_FET9FfzNnFiAum2nLDPMJA.jpeg)
 
 ### Introduction:
 
@@ -23,7 +23,7 @@ Every good hunt starts with reconnaissance. When you’re looking at a huge scop
 
 Hence, I used Google dorking, the art of using advanced search operators to find information that isn’t readily visible to the average user.
 
-![](https://cdn-images-1.medium.com/max/800/0*ESd0A9iQE-bqBmcM.gif)
+![](/images/blog/from-dorks-to-defense/0_ESd0A9iQE-bqBmcM.gif)
 
 I crafted a specific list of dorks aimed at uncovering sensitive files, configuration errors, and admin panels within the government domain.
 
@@ -55,7 +55,7 @@ Two sites caught my eye:
 https://[redacted].gov.in/testimonial.php?lang=2&lid=2464https://[redacted].gov.in/search.php?page=14&fromdate=26-04-2024&todate=27-04-2024&state_name=35%20OR%201=1%20&circle=&division=&range=&block=&beat=&source=
 ```
 
-![](https://cdn-images-1.medium.com/max/800/0*-55DUeeo85zZX55S.gif)
+![](/images/blog/from-dorks-to-defense/0_-55DUeeo85zZX55S.gif)
 
 Multiple parameters in a government site? Yes, that’s basically a “please test me” invitation.
 
@@ -77,33 +77,33 @@ My reports were validated, patched, and acknowledged.
 
 **September 2025:**
 
-![](https://cdn-images-1.medium.com/max/800/1*3vdr2a9sNeUeRmFGYdS9bw.jpeg)
+![](/images/blog/from-dorks-to-defense/1_3vdr2a9sNeUeRmFGYdS9bw.jpeg)
 
 **October 2025:**
 
-![](https://cdn-images-1.medium.com/max/800/1*oT6i9Y-R4OfGCkdW_3e4Sw.jpeg)
+![](/images/blog/from-dorks-to-defense/1_oT6i9Y-R4OfGCkdW_3e4Sw.jpeg)
 
 **Some of findings:**
 
-![](https://cdn-images-1.medium.com/max/800/0*GWjt6PwnSHNGIJUk.gif)
+![](/images/blog/from-dorks-to-defense/0_GWjt6PwnSHNGIJUk.gif)
 
 **2 SQL Injection:**
 
-![](https://cdn-images-1.medium.com/max/800/1*p0iY_bLGcryt7loqJ2s12Q.png)
+![](/images/blog/from-dorks-to-defense/1_p0iY_bLGcryt7loqJ2s12Q.png)
 
-![](https://cdn-images-1.medium.com/max/800/1*5d4F_vbMcVmiJidEqPK91Q.jpeg)
+![](/images/blog/from-dorks-to-defense/1_5d4F_vbMcVmiJidEqPK91Q.jpeg)
 
 **Several PHPInfo (Information disclosure):**
 
-![](https://cdn-images-1.medium.com/max/800/1*GbClUe79xPv9M3own-G4jQ.png)
+![](/images/blog/from-dorks-to-defense/1_GbClUe79xPv9M3own-G4jQ.png)
 
-![](https://cdn-images-1.medium.com/max/800/1*CwwUwpGMYV0yHRDyBAVjvQ.png)
+![](/images/blog/from-dorks-to-defense/1_CwwUwpGMYV0yHRDyBAVjvQ.png)
 
 * * *
 
 ### Final Thoughts
 
-![](https://cdn-images-1.medium.com/max/800/1*XW_R9WWXDpwzbEZCRBikdw.png)
+![](/images/blog/from-dorks-to-defense/1_XW_R9WWXDpwzbEZCRBikdw.png)
 
 This journey was never about exploiting anything. It was about safeguarding systems people rely on every day.
 
@@ -121,7 +121,7 @@ Your next discovery might be much bigger than you think.
 
 **Het Patel** - VAPT Intern | CRTA | Cybersecurity Researcher | Bug Hunter | Top 2% THM | Coffee Addict ☕
 
-![](https://cdn-images-1.medium.com/max/800/1*EsnzyEdgvPnrvyq6Jl_mDA.jpeg)
+![](/images/blog/from-dorks-to-defense/1_EsnzyEdgvPnrvyq6Jl_mDA.jpeg)
 
 > Me and Shah Kaif are building our platform to display our personal Medium blogs and a lot more to come, on our own platform — **VulnInsights**
 

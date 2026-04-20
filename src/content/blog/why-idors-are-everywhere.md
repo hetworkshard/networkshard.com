@@ -8,7 +8,7 @@ readTime: "5 min read"
 
 ## **“Why IDORs Are Everywhere — And How to Find Them” — Part I**
 
-![](https://cdn-images-1.medium.com/max/800/1*46Qd3SNa4tKkcA5ORbSUJQ.png)
+![](/images/blog/why-idors-are-everywhere/1_46Qd3SNa4tKkcA5ORbSUJQ.png)
 
 _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://medium.com/@cyberexpertamish)_,_ [_Lay Patel_](https://medium.com/@cynex) _at_ [_Hacker4Help_](https://medium.com/@hacker4help) _as part of our learning initiative on cybersecurity awareness._
 
@@ -16,7 +16,7 @@ Insecure Direct Object Reference (IDOR) is a common yet critical vulnerability i
 
 The beauty (and danger) of IDOR lies in its simplicity — no complex exploit chains, no advanced tools required. Just basic parameter manipulation that any curious user could stumble upon.
 
-![](https://cdn-images-1.medium.com/max/800/1*pOShe-Y9KU8UoQ8xt60WYA.gif)
+![](/images/blog/why-idors-are-everywhere/1_pOShe-Y9KU8UoQ8xt60WYA.gif)
 
 ## What is IDOR?
 
@@ -30,7 +30,7 @@ Normal request: https://banking-app.com/account/12345Malicious request: https://
 
 If the application doesn’t verify that the logged-in user owns account `12346`, the attacker gains access to someone else's banking information.
 
-![](https://cdn-images-1.medium.com/max/800/1*AFWKVkO4kf3f0ClM_0SNOA.gif)
+![](/images/blog/why-idors-are-everywhere/1_AFWKVkO4kf3f0ClM_0SNOA.gif)
 
 ## Types of IDOR Vulnerabilities
 
@@ -51,7 +51,7 @@ If the application doesn’t verify that the logged-in user owns account `12346`
 
 ## My Real-World Finding: Exposing Invoices via IDOR
 
-![](https://cdn-images-1.medium.com/max/800/0*jBnQxyUv6c20fb6i.gif)
+![](/images/blog/why-idors-are-everywhere/0_jBnQxyUv6c20fb6i.gif)
 
 ### The Discovery Process
 
@@ -65,13 +65,13 @@ https://redacted-shop.in/myaccount/invoice/print/16?type=print
 
 The sequential number `16` immediately caught my attention. In my experience, predictable identifiers are often vulnerable to IDOR attacks.
 
-![](https://cdn-images-1.medium.com/max/800/1*QiG3-3uCdmdeR9J5xOAHNw.png)
+![](/images/blog/why-idors-are-everywhere/1_QiG3-3uCdmdeR9J5xOAHNw.png)
 
 _Address and Mobile number — both are dummy — lol._
 
 Once i clicked on Invoice:
 
-![](https://cdn-images-1.medium.com/max/800/1*6pz8TufSLIgbyl6L2znOtw.png)
+![](/images/blog/why-idors-are-everywhere/1_6pz8TufSLIgbyl6L2znOtw.png)
 
 **Testing Methodology:**
 

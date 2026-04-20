@@ -6,7 +6,7 @@ tags: ["nosql", "injection", "web-security"]
 readTime: "6 min read"
 ---
 
-![](https://cdn-images-1.medium.com/max/800/0*v7AwZvTJBpEZ6pc-)
+![](/images/blog/nosql-injection/0_v7AwZvTJBpEZ6pc-.png)
 
 ## Overview
 
@@ -27,7 +27,7 @@ NoSQL injection occurs when untrusted user input is unsafely interpolated into N
 
 -   Leverages query operators like `$ne`, `$in`, `$regex`, or `$where` to manipulate logic and extract data.
 
-![](https://cdn-images-1.medium.com/max/800/0*OAr1t0wpeP4cq7FR.gif)
+![](/images/blog/nosql-injection/0_OAr1t0wpeP4cq7FR.gif)
 
 * * *
 
@@ -79,7 +79,7 @@ this.category == '\''
 
 If it works, the app is parsing raw input in MongoDB queries — potential syntax injection.
 
-![](https://cdn-images-1.medium.com/max/800/0*3GDyPqYCC_8ddBfD.gif)
+![](/images/blog/nosql-injection/0_3GDyPqYCC_8ddBfD.gif)
 
 * * *
 
@@ -135,13 +135,13 @@ https://.../lookup?category=fizzy'%00
 
 If the backend trims after null byte, `this.released` is ignored — potentially exposing unreleased data.
 
-![](https://cdn-images-1.medium.com/max/800/0*wZRN2FjnTojtvqV0)
+![](/images/blog/nosql-injection/0_wZRN2FjnTojtvqV0.jpg)
 
 * * *
 
 ## NoSQL Operator Injection
 
-![](https://cdn-images-1.medium.com/max/800/1*tOiNTp4R0MsI8ahpcuMc5A.png)
+![](/images/blog/nosql-injection/1_tOiNTp4R0MsI8ahpcuMc5A.png)
 
 * * *
 
@@ -169,7 +169,7 @@ Returns all users where username and password ≠ “invalid” — likely l
 {"username":{"$in":["admin"]},"password":{"$ne":""}}
 ```
 
-![](https://cdn-images-1.medium.com/max/800/0*kbJs8yzqNe7Cy15o.gif)
+![](/images/blog/nosql-injection/0_kbJs8yzqNe7Cy15o.gif)
 
 * * *
 
@@ -246,7 +246,7 @@ NoSQL injections can be just as dangerous as traditional SQL injections. By abus
 -   Extract hidden or unreleased records
 -   Perform privilege escalation
 
-![](https://cdn-images-1.medium.com/max/800/0*ICawR5TViATVkHgy.gif)
+![](/images/blog/nosql-injection/0_ICawR5TViATVkHgy.gif)
 
 ## 🔐 Mitigation Tips:
 
@@ -259,4 +259,4 @@ NoSQL injections can be just as dangerous as traditional SQL injections. By abus
 
 📌 **Special thanks to** [**Shah kaif**](https://medium.com/u/10f677056bcd?source=post_page---user_mention--d82e6591a63a---------------------------------------) **—** My dedicated learning partner — for collaborating on this research and finding.
 
-![](https://cdn-images-1.medium.com/max/800/0*Rwuan_0X6RFQOD0J.gif)
+![](/images/blog/nosql-injection/0_Rwuan_0X6RFQOD0J.gif)

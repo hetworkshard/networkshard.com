@@ -8,7 +8,7 @@ readTime: "5 min read"
 
 _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://medium.com/@cyberexpertamish)_,_ [_Lay Patel_](https://medium.com/@cynex) _at_ [_Hacker4Help_](https://medium.com/@hacker4help) _as part of our learning initiative on cybersecurity awareness._
 
-![](https://cdn-images-1.medium.com/max/800/1*Zx41HANSTtotRPjASyADBA.png)
+![](/images/blog/rate-limiting-guide/1_Zx41HANSTtotRPjASyADBA.png)
 
 * * *
 
@@ -16,7 +16,7 @@ Imagine this: you’re hosting a killer party (your API), and suddenly a group o
 
 ## 💡 So, What Is Rate Limiting?
 
-![](https://cdn-images-1.medium.com/max/800/1*o4tRXU0w3RQuLR6pfdm6eQ.gif)
+![](/images/blog/rate-limiting-guide/1_o4tRXU0w3RQuLR6pfdm6eQ.gif)
 
 In simple terms, **rate limiting** is your server’s way of saying:
 
@@ -26,7 +26,7 @@ It controls how many requests a user (or a bot disguised as a user) can make to 
 
 ## 🧪 Real-Life Analogy
 
-![](https://cdn-images-1.medium.com/max/800/1*Vd_7oAr8ZRSOUllCqugI2Q.gif)
+![](/images/blog/rate-limiting-guide/1_Vd_7oAr8ZRSOUllCqugI2Q.gif)
 
 -   **Without Rate Limiting:**  
      Imagine you’re at a pizza shop, and one guy keeps cutting the line yelling “ONE SLICE, ONE SLICE, ONE SLICE” nonstop. Eventually, everyone’s mad, and the chef starts crying.
@@ -35,7 +35,7 @@ It controls how many requests a user (or a bot disguised as a user) can make to 
 
 * * *
 
-![](https://cdn-images-1.medium.com/max/800/1*hGbvREwGAcpWMsosAexYog.gif)
+![](/images/blog/rate-limiting-guide/1_hGbvREwGAcpWMsosAexYog.gif)
 
 ## The Five Stages of Rate Limit Grief
 
@@ -58,7 +58,7 @@ It controls how many requests a user (or a bot disguised as a user) can make to 
 
 ## 🕵️‍♂️ Bypassing Rate Limiting (Ethical Hacking Context)
 
-![](https://cdn-images-1.medium.com/max/800/1*CDa-DR9wxLvEGyHTgLfLSQ.gif)
+![](/images/blog/rate-limiting-guide/1_CDa-DR9wxLvEGyHTgLfLSQ.gif)
 
 ### 1\. Rotating IP Addresses (IP Spoofing / Proxy Chains)
 

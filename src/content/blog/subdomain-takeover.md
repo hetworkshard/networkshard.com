@@ -6,11 +6,11 @@ tags: ["subdomain-takeover", "dns", "web-security"]
 readTime: "5 min read"
 ---
 
-![](https://cdn-images-1.medium.com/max/800/0*uJ11VeDQmFtR_giW)
+![](/images/blog/subdomain-takeover/0_uJ11VeDQmFtR_giW.png)
 
 _A comprehensive guide to understanding, detecting, and preventing one of the web’s most overlooked vulnerabilities — Subdomain Takeover_ 🚨
 
-![](https://cdn-images-1.medium.com/max/800/0*VhgnoW0aZuFlcBCK.gif)
+![](/images/blog/subdomain-takeover/0_VhgnoW0aZuFlcBCK.gif)
 
 * * *
 
@@ -20,7 +20,7 @@ Picture this: It’s just another random day when I’m scrolling through Linked
 
 _“If their services are shutting down, what happens to their subdomains?”_
 
-![](https://cdn-images-1.medium.com/max/800/0*0Xt4JDzPqrggz6kF.gif)
+![](/images/blog/subdomain-takeover/0_0Xt4JDzPqrggz6kF.gif)
 
 That single thought led me and my friend — Kaif down a rabbit hole that perfectly demonstrates how business disruptions create cybersecurity vulnerabilities. Within minutes, we were running subdomain enumeration:
 
@@ -30,15 +30,15 @@ sudo subfinder -d target.com -o subfinder.txt && \sudo httpx-toolkit -l subfinde
 
 **The result?** We found `gcdn.target.com` flagged as potentially vulnerable to S3 bucket takeover.
 
-![](https://cdn-images-1.medium.com/max/800/1*stBzv0SOC1jbQJFOrxpHqQ.png)
+![](/images/blog/subdomain-takeover/1_stBzv0SOC1jbQJFOrxpHqQ.png)
 
 A quick dig command revealed the smoking gun:
 
-![](https://cdn-images-1.medium.com/max/800/1*076ZcP-S1SucdfUyhwY1-w.png)
+![](/images/blog/subdomain-takeover/1_076ZcP-S1SucdfUyhwY1-w.png)
 
 Though we were not able to take over the subdomain this time, the presence of proper **TXT records** and correct configurations helped the domain owner secure it just in time.
 
-![](https://cdn-images-1.medium.com/max/800/0*TRv-F-mS4ciJIQs0.gif)
+![](/images/blog/subdomain-takeover/0_TRv-F-mS4ciJIQs0.gif)
 
 We felt a little disappointed — but in a good way! After all, the ultimate goal is always **security first**, not exploitation.
 
@@ -52,7 +52,7 @@ A **subdomain takeover** occurs when a subdomain (like `support.example.com`) po
 
 Because the DNS record still exists but the service behind it does not, an attacker can claim the service and take control of the subdomain.
 
-![](https://cdn-images-1.medium.com/max/800/0*7Dav-AwmOAqY7mag.gif)
+![](/images/blog/subdomain-takeover/0_7Dav-AwmOAqY7mag.gif)
 
 > In simpler words: your company “forgot” to turn off a signpost pointing to an empty lot — and a hacker decided to build a trap there.
 
@@ -121,7 +121,7 @@ The attacker verifies the service is unclaimed:
 
 ## Why is it Dangerous? ⚔️
 
-![](https://cdn-images-1.medium.com/max/800/0*P_iOkqCfEAeLKdCw.gif)
+![](/images/blog/subdomain-takeover/0_P_iOkqCfEAeLKdCw.gif)
 
 -   🟢 Phishing attacks using a trusted domain.
 -   🟢 Brand and reputation damage.
@@ -130,7 +130,7 @@ The attacker verifies the service is unclaimed:
 
 ## How Does It Happen? 🧩
 
-![](https://cdn-images-1.medium.com/max/800/0*YZggjAbJAAt25lIz.gif)
+![](/images/blog/subdomain-takeover/0_YZggjAbJAAt25lIz.gif)
 
 1.  Subdomain points to external service (GitHub Pages, AWS, etc.).
 2.  Service resource gets deleted or is unclaimed.
@@ -140,7 +140,7 @@ The attacker verifies the service is unclaimed:
 
 ## Tools & Automation 🧰
 
-![](https://cdn-images-1.medium.com/max/800/0*57YtOa9ZL1S_f4IX.gif)
+![](/images/blog/subdomain-takeover/0_57YtOa9ZL1S_f4IX.gif)
 
 -   Subjack
 -   Subzy (Not much efficient)
@@ -169,7 +169,7 @@ Sometimes the best vulnerabilities aren’t found through traditional scanning�
 
 ## About the Authors:
 
-![](https://cdn-images-1.medium.com/max/800/0*JDwQUaIQrRpXOuY-.gif)
+![](/images/blog/subdomain-takeover/0_JDwQUaIQrRpXOuY-.gif)
 
 -   [**Het Patel**](https://www.linkedin.com/in/hetpatel9) — VAPT Intern| Cybersecurity Researcher | Bug Hunter | Top 6% THM | Coffee Addict ☕
 -   [**Kaif Shah**](https://www.linkedin.com/in/skaif009/) — Security Researcher | CEHv11 | CRTA | Top 4% THM | Bug Hunter

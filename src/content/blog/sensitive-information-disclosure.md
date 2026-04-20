@@ -12,7 +12,7 @@ _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://
 
 * * *
 
-![](https://cdn-images-1.medium.com/max/800/1*CJyY0Ceu62w8ty7aEczNLQ.jpeg)
+![](/images/blog/sensitive-information-disclosure/1_CJyY0Ceu62w8ty7aEczNLQ.jpeg)
 
 ## 🔐 “Sensitive Information Disclosure: The Silent Threat Lurking in Plain Sight”
 

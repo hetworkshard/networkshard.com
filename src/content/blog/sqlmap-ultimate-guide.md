@@ -6,7 +6,7 @@ tags: ["sqlmap", "sql-injection", "tools"]
 readTime: "6 min read"
 ---
 
-![](https://cdn-images-1.medium.com/max/800/1*Y23CTo2VSNaw0eyYcRhSPw.png)
+![](/images/blog/sqlmap-ultimate-guide/1_Y23CTo2VSNaw0eyYcRhSPw.png)
 
 _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://medium.com/@cyberexpertamish)_,_ [_Lay Patel_](https://medium.com/@cynex) _at_ [_Hacker4Help_](https://medium.com/@hacker4help) _as part of our learning initiative on cybersecurity awareness._
 
@@ -37,7 +37,7 @@ SQLMap offers an impressive range of capabilities:
 
 * * *
 
-![](https://cdn-images-1.medium.com/max/800/1*TgA7qYMe9xcp5auz8FWJDA.png)
+![](/images/blog/sqlmap-ultimate-guide/1_TgA7qYMe9xcp5auz8FWJDA.png)
 
 ## Getting Started with SQLMap
 
@@ -67,7 +67,7 @@ apt update && apt install sqlmap
 
 ### **LET’S GET STARTED!!! 😈😈😈**
 
-![](https://cdn-images-1.medium.com/max/800/1*6JJDylRco8_aGUnhdTi44w.gif)
+![](/images/blog/sqlmap-ultimate-guide/1_6JJDylRco8_aGUnhdTi44w.gif)
 
 ### But hey — wait!  
 **Before accessing and trying SQLMap, make sure you have proper authorization.**  
@@ -93,7 +93,7 @@ That’s a basic SQLMap command consisting of:
 
 ## Advanced Usage of SQLMap 🚀
 
-![](https://cdn-images-1.medium.com/max/800/1*_dQ2USARvgoJcr6fNEQJfA.gif)
+![](/images/blog/sqlmap-ultimate-guide/1__dQ2USARvgoJcr6fNEQJfA.gif)
 
 Once you’re comfortable with the basics, SQLMap offers a rich set of flags and options that allow you to take full control over the injection process. Below are a few advanced features commonly used by professionals:
 

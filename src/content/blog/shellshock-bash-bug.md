@@ -6,7 +6,7 @@ tags: ["vulnerability", "bash", "CVE"]
 readTime: "5 min read"
 ---
 
-![](https://cdn-images-1.medium.com/max/800/0*FYzN51MPA45hmiwx)
+![](/images/blog/shellshock-bash-bug/0_FYzN51MPA45hmiwx.png)
 
 📌 **Special thanks to** [**Shah kaif**](https://medium.com/u/10f677056bcd?source=post_page---user_mention--d82e6591a63a---------------------------------------) **—** my dedicated learning partner for collaborating on this research and finding.
 
@@ -22,7 +22,7 @@ At its core, Bash is more than just a command interpreter — it’s often i
 
 In simple terms: Bash doesn’t properly parse certain environment variables, allowing attackers to append malicious code that gets executed automatically. This isn’t just a theoretical issue; it affected millions of systems worldwide, from servers to embedded devices.
 
-![](https://cdn-images-1.medium.com/max/800/0*tq3JUt7VIw00hQ-x.gif)
+![](/images/blog/shellshock-bash-bug/0_tq3JUt7VIw00hQ-x.gif)
 
 * * *
 
@@ -36,7 +36,7 @@ To understand the mechanics, let’s look at how Bash processes environment vari
 
 But in vulnerable Bash versions (up to 4.3), if you add commands after the function definition, Bash executes them unexpectedly. The bug lies in the parser: it doesn’t stop after the function closes, so any trailing code runs as a command.
 
-![](https://cdn-images-1.medium.com/max/800/0*fZCMhoMp0rDp72bM)
+![](/images/blog/shellshock-bash-bug/0_fZCMhoMp0rDp72bM.jpg)
 
 Here’s a basic proof-of-concept (PoC) to demonstrate:
 
@@ -67,7 +67,7 @@ In some cases, the exploit attempt is clearly visible within the host name HTTP 
 
 * * *
 
-![](https://cdn-images-1.medium.com/max/800/0*QkUuYRXBBzNqHELZ.gif)
+![](/images/blog/shellshock-bash-bug/0_QkUuYRXBBzNqHELZ.gif)
 
 ## Finding Vulnerable Systems with Shodan:
 

@@ -6,7 +6,7 @@ tags: ["sql-injection", "shodan", "pentesting"]
 readTime: "6 min read"
 ---
 
-![](https://cdn-images-1.medium.com/max/800/1*6WU29m2SWDro9AcCZ-RUCw.png)
+![](/images/blog/from-shodan-to-sqli/1_6WU29m2SWDro9AcCZ-RUCw.png)
 
 Uncovering vulnerabilities and exploiting them: a deep dive into the journey from reconnaissance to a successful SQL injection.
 
@@ -18,31 +18,31 @@ This is a real-world case study detailing how an exposed company dashboard was i
 
 ## The Reconnaissance Phase: Shodan’s Power
 
-![](https://cdn-images-1.medium.com/max/800/0*3d7ozKMAO-vAzWUI.gif)
+![](/images/blog/from-shodan-to-sqli/0_3d7ozKMAO-vAzWUI.gif)
 
 While exploring Shodan one evening, I came across an exposed server running an outdated version of Apache. What started as simple reconnaissance quickly escalated into a full SQL injection that let me bypass login and access a company’s internal dashboard.
 
 This write-up highlights how **basic misconfigurations + outdated software + lack of input validation** can lead to severe compromises.
 
-![](https://cdn-images-1.medium.com/max/800/1*LZ02PKRCZHqgRjI1dlmu5Q.png)
+![](/images/blog/from-shodan-to-sqli/1_LZ02PKRCZHqgRjI1dlmu5Q.png)
 
 Where I saw this !!!
 
-![](https://cdn-images-1.medium.com/max/800/1*Cl2IrfAiJoOR9jfZf-maWA.png)
+![](/images/blog/from-shodan-to-sqli/1_Cl2IrfAiJoOR9jfZf-maWA.png)
 
 * * *
 
 ## Discovering the Login Page
 
-![](https://cdn-images-1.medium.com/max/800/1*VWcHFyy6JiBbMCnefzWX5w.png)
+![](/images/blog/from-shodan-to-sqli/1_VWcHFyy6JiBbMCnefzWX5w.png)
 
 When I visited the IP, I noticed that directory listing was enabled, which exposed several data files.
 
-![](https://cdn-images-1.medium.com/max/800/1*j5SQexw4h8RuJ4kqRYhvjw.png)
+![](/images/blog/from-shodan-to-sqli/1_j5SQexw4h8RuJ4kqRYhvjw.png)
 
 When I visited the IP, I noticed that directory listing was enabled, which exposed several data files. I visited almost every data folder, but they eventually redirected me to a login screen. I tried a few password combinations, which obviously failed.
 
-![](https://cdn-images-1.medium.com/max/800/0*gHknThx6B8fZOVdG.gif)
+![](/images/blog/from-shodan-to-sqli/0_gHknThx6B8fZOVdG.gif)
 
 * * *
 
@@ -50,9 +50,9 @@ When I visited the IP, I noticed that directory listing was enabled, which expos
 
 The first step was simple: I entered a single quote (`'`) into the username field. The application responded with a SQL syntax error. Jackpot.
 
-![](https://cdn-images-1.medium.com/max/800/1*AUm2rqX_fxkcEf8bpALKpA.png)
+![](/images/blog/from-shodan-to-sqli/1_AUm2rqX_fxkcEf8bpALKpA.png)
 
-![](https://cdn-images-1.medium.com/max/800/0*Z26o7cVgzPs2KY9R.gif)
+![](/images/blog/from-shodan-to-sqli/0_Z26o7cVgzPs2KY9R.gif)
 
 ```
 A Database Error OccurredError Number: 1064You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'admin' LIMIT 1' at line 3SELECT * FROM (`user_login_details`) WHERE `user_name` ='admin'' and user_password='admin' LIMIT 1Filename: C:\xampp\htdocs\DEMO\system\database\DB_driver.phpLine Number: 331
@@ -72,9 +72,9 @@ admin' AND 1=1#
 
 Dashboard:
 
-![](https://cdn-images-1.medium.com/max/1200/1*lwKIbkv_c5dRnE3HtLsBlw.png)
+![](/images/blog/from-shodan-to-sqli/1_lwKIbkv_c5dRnE3HtLsBlw.png)
 
-![](https://cdn-images-1.medium.com/max/800/0*UoabAfPECZkb6AJo.gif)
+![](/images/blog/from-shodan-to-sqli/0_UoabAfPECZkb6AJo.gif)
 
 I was able to bypass authentication and gain direct access to the company’s internal dashboard.
 

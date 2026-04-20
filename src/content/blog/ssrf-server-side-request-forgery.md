@@ -8,7 +8,7 @@ readTime: "8 min read"
 
 ## **SSRF: When Your Server Becomes a Nosy Hacker — Part 1** 🔍
 
-![](https://cdn-images-1.medium.com/max/800/0*YgnhrfUqF8q6gYnE)
+![](/images/blog/ssrf-server-side-request-forgery/0_YgnhrfUqF8q6gYnE.png)
 
 _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://medium.com/@cyberexpertamish)_,_ [_Lay Patel_](https://medium.com/@cynex) _at_ [_Hacker4Help_](https://medium.com/@hacker4help) _as part of our learning initiative on cybersecurity awareness._
 
@@ -20,7 +20,7 @@ _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://
 
 Let’s imagine your server is like your slightly naive friend Bob.
 
-![](https://cdn-images-1.medium.com/max/800/0*XkKiBjkzaZsPva7W.gif)
+![](/images/blog/ssrf-server-side-request-forgery/0_XkKiBjkzaZsPva7W.gif)
 
 Now, Bob’s job is to fetch stuff for you — pictures, JSON data, maybe even a cat video if you ask nicely.
 
@@ -30,7 +30,7 @@ _“Hey Bob, can you go to this URL for me? Totally normal. Not sketchy at all. 
 
 And Bob, bless his trusting soul, says: **“Sure, buddy! Anything for a user!”** 🫡
 
-![](https://cdn-images-1.medium.com/max/800/0*ZHbBOdzaO_H1WzTq.gif)
+![](/images/blog/ssrf-server-side-request-forgery/0_ZHbBOdzaO_H1WzTq.gif)
 
 * * *
 
@@ -64,7 +64,7 @@ The attacker leverages the server’s network position and privileges to:
 
 **Fridge**: _Alarms blaring, database leaking, credentials falling like Jenga blocks_
 
-![](https://cdn-images-1.medium.com/max/800/0*fnEK9XbwwuUiOFFN.gif)
+![](/images/blog/ssrf-server-side-request-forgery/0_fnEK9XbwwuUiOFFN.gif)
 
 * * *
 
@@ -216,7 +216,7 @@ B. File Protocol
 
 ## 🎬 Part 1 Conclusion: Bob’s First Lesson
 
-![](https://cdn-images-1.medium.com/max/800/0*-hG19yLhOTRUyHI5.gif)
+![](/images/blog/ssrf-server-side-request-forgery/0_-hG19yLhOTRUyHI5.gif)
 
 **Bob**: “Wait, so you’re telling me I’ve been helping attackers this whole time?”
 

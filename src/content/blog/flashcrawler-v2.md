@@ -10,13 +10,13 @@ _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://
 
 * * *
 
-![](https://cdn-images-1.medium.com/max/800/1*lCYKIyjuEozG2Qy2TI9o1w.png)
+![](/images/blog/flashcrawler-v2/1_lCYKIyjuEozG2Qy2TI9o1w.png)
 
 > Built for hackers, bug bounty hunters, OSINT wizards, and anyone who’s ever screamed at a JavaScript-heavy webpage.
 
 So there I was, manually copying URLs from websites like some kind of digital caveman, when my friend Kaif casually drops this bombshell: “Oh, I built a web crawler that can do that in seconds.”
 
-![](https://cdn-images-1.medium.com/max/800/1*IqsVFXvhYLWUBdzX7jNCPQ.gif)
+![](/images/blog/flashcrawler-v2/1_IqsVFXvhYLWUBdzX7jNCPQ.gif)
 
 Enter **Flash\_Crawler** — a tool that made me realize I’ve been living my entire developer life wrong.
 
@@ -26,7 +26,7 @@ Enter **Flash\_Crawler** — a tool that made me realize I’ve been living 
 
 You know how most web scrapers are like that person who shows up to a JavaScript conference and asks “What’s React?” Flash\_Crawler actually gets it. It runs a real browser (Chromium), executes JavaScript, waits for pages to load properly, and then methodically discovers every nook and cranny of your target website.
 
-![](https://cdn-images-1.medium.com/max/800/1*hj76wUhU2Pnbr8sJYrV4dw.gif)
+![](/images/blog/flashcrawler-v2/1_hj76wUhU2Pnbr8sJYrV4dw.gif)
 
 So basically **FlashCrawler v2.0** is a Python + Playwright-based crawler that:
 
@@ -46,7 +46,7 @@ FlashCrawler, on the other hand, shows up with Playwright, loads JavaScript, and
 
 ## 🎯 Why You’ll Love FlashCrawler
 
-![](https://cdn-images-1.medium.com/max/800/1*WbgvQoz-4YRItwFiN5ncPA.png)
+![](/images/blog/flashcrawler-v2/1_WbgvQoz-4YRItwFiN5ncPA.png)
 
 * * *
 
@@ -78,7 +78,7 @@ No messy CSVs. Just plain, hacker-friendly text.
 
 ## 😂 Sites When They See FlashCrawler Coming:
 
-![](https://cdn-images-1.medium.com/max/800/1*aeIjy5Tcx7Pf5TdVxqxDYg.gif)
+![](/images/blog/flashcrawler-v2/1_aeIjy5Tcx7Pf5TdVxqxDYg.gif)
 
 But seriously, it behaves nicely — if you use polite settings (`-t 2` adds 2s delay).
 

@@ -16,7 +16,7 @@ In the world of networking, **DNS (Domain Name System)** is like the phonebook o
 
 Let’s dive into what rDNS is, why it matters, and how it’s used in real-world scenarios.
 
-![](https://cdn-images-1.medium.com/max/800/1*Fm_jfRicFk1O_FrqvVBRkQ.jpeg)
+![](/images/blog/reverse-dns-guide/1_Fm_jfRicFk1O_FrqvVBRkQ.jpeg)
 
 * * *
 

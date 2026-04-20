@@ -6,7 +6,7 @@ tags: ["html-injection", "chatbot", "web-security"]
 readTime: "4 min read"
 ---
 
-![](https://cdn-images-1.medium.com/max/800/1*I5gZg5zHGbCAm6pFutc-og.png)
+![](/images/blog/html-injection-chatbot/1_I5gZg5zHGbCAm6pFutc-og.png)
 
 _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://medium.com/@cyberexpertamish)_,_ [_Lay Patel_](https://medium.com/@cynex) _at_ [_Hacker4Help_](https://medium.com/@hacker4help) _as part of our learning initiative on cybersecurity awareness._
 
@@ -16,7 +16,7 @@ _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://
 
 As budding cybersecurity enthusiasts, we’re always on the lookout for vulnerable systems that can help us learn and sharpen our skills. One casual evening of testing led us — **Het Patel** and [**Kaif Shah**](https://medium.com/@SKaif009) — to discover a **Stored HTML Injection vulnerability** in the chatbot feature of redacted[.co.in](https://pyng.co.in), an AI-driven platform that connects users with verified professional experts across various categories.
 
-![](https://cdn-images-1.medium.com/max/800/1*O-VS6Px7tMZsiEi0ppwFPg.gif)
+![](/images/blog/html-injection-chatbot/1_O-VS6Px7tMZsiEi0ppwFPg.gif)
 
 So Let’s get started **😎**
 
@@ -26,7 +26,7 @@ So Let’s get started **😎**
 
 Before we dive into the juicy details, let’s break down what **Stored HTML Injection** actually is (because not everyone speaks fluent hacker 🤓):
 
-![](https://cdn-images-1.medium.com/max/800/1*5ZxnGMhwcyDhQA1jg8MFWg.gif)
+![](/images/blog/html-injection-chatbot/1_5ZxnGMhwcyDhQA1jg8MFWg.gif)
 
 **Think of it like this:** Imagine you’re at a restaurant and the waiter takes your order without questioning it. You ask for “spaghetti with a side of _surprise ingredients_” and the kitchen just… makes it. No questions asked. That’s essentially what happens with stored HTML injection! 🍝
 
@@ -67,7 +67,7 @@ However, since JavaScript execution was fully disabled, despite attempting multi
 
 ## Screenshot of Payload Execution
 
-![](https://cdn-images-1.medium.com/max/800/1*hhnaAsei0pc_D0CEi2zBpg.png)
+![](/images/blog/html-injection-chatbot/1_hhnaAsei0pc_D0CEi2zBpg.png)
 
 * * *
 
@@ -82,7 +82,7 @@ We followed responsible disclosure practices:
 
 We did got the reply from support team:
 
-![](https://cdn-images-1.medium.com/max/800/1*_uzraE2NuE6Vl8XD_EwWog.png)
+![](/images/blog/html-injection-chatbot/1__uzraE2NuE6Vl8XD_EwWog.png)
 
 They were already aware of the vulnerability so they marked our report as “Duplicate Submission” 😭
 
@@ -90,7 +90,7 @@ They were already aware of the vulnerability so they marked our report as “Dup
 
 ## **About the Authors:**
 
-![](https://cdn-images-1.medium.com/max/800/1*NRR6i_VIh-HmfrQhX8yfFg.gif)
+![](/images/blog/html-injection-chatbot/1_NRR6i_VIh-HmfrQhX8yfFg.gif)
 
 -   [**Het Patel**](https://www.linkedin.com/in/hetpatel9) — Cybersecurity Enthusiast | Bug Hunter | Coffee Addict ☕
 -   [**Kaif Shah**](https://www.linkedin.com/in/skaif009/) — Security Researcher | CEHv11 | CRTA | Top 4% THM | Bug Hunter

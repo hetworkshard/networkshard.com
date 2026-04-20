@@ -6,13 +6,13 @@ tags: ["xss", "idor", "bug-bounty"]
 readTime: "5 min read"
 ---
 
-![](https://cdn-images-1.medium.com/max/800/1*_dSrfoTWqk0ySifsezdpFQ.jpeg)
+![](/images/blog/xss-meets-idor/1__dSrfoTWqk0ySifsezdpFQ.jpeg)
 
 📌 **Special thanks to** [**Shah kaif**](https://medium.com/u/10f677056bcd) — my dedicated learning partner — for collaborating on this research and finding.
 
 _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://medium.com/@cyberexpertamish)_,_ [_Lay Patel_](https://medium.com/@cynex) _at_ [_Hacker4Help_](https://medium.com/@hacker4help) _as part of our learning initiative on cybersecurity awareness._
 
-![](https://cdn-images-1.medium.com/max/800/0*lbeYwtcuFjjpM6nP.gif)
+![](/images/blog/xss-meets-idor/0_lbeYwtcuFjjpM6nP.gif)
 
 * * *
 
@@ -32,7 +32,7 @@ During the account creation process on **\[redacted\].com**, I began exploring h
 
 Initially, the frontend validation prevented me from entering any special characters or HTML tags.
 
-![](https://cdn-images-1.medium.com/max/800/1*qD1T7WsNoTNQ_vjk-7FOGw.png)
+![](/images/blog/xss-meets-idor/1_qD1T7WsNoTNQ_vjk-7FOGw.png)
 
 However, being curious (and persistent), I opened up **Burp Suite** to intercept the registration request and manually modified the payload to include raw HTML:
 
@@ -42,16 +42,16 @@ However, being curious (and persistent), I opened up **Burp Suite** to intercept
 <h1>Holaaaa</h1>
 ```
 
-![](https://cdn-images-1.medium.com/max/1200/1*dDLYp9D9VyWbUJ6TTujrGQ.png)
+![](/images/blog/xss-meets-idor/1_dDLYp9D9VyWbUJ6TTujrGQ.png)
 
 I then **forwarded the request** to the server — and surprisingly, it worked.  
 The account was successfully created with the display name: `<h1>holaa</h1>`
 
-![](https://cdn-images-1.medium.com/max/800/0*ojlwBZqsaODKPArr.gif)
+![](/images/blog/xss-meets-idor/0_ojlwBZqsaODKPArr.gif)
 
 **ANDDD THE RESPONSE:**
 
-![](https://cdn-images-1.medium.com/max/1200/1*8l28WFqP2t2sXStcoz27Ow.png)
+![](/images/blog/xss-meets-idor/1_8l28WFqP2t2sXStcoz27Ow.png)
 
 The resulting profile ⚠️ was now located at:
 
@@ -59,7 +59,7 @@ The resulting profile ⚠️ was now located at:
 https://www.redacted.com/members/<h1>holaa</h1>
 ```
 
-![](https://cdn-images-1.medium.com/max/800/0*ffhYhCchyjCW1UYt.gif)
+![](/images/blog/xss-meets-idor/0_ffhYhCchyjCW1UYt.gif)
 
 ### ⚠️ Why This Matters
 
@@ -92,7 +92,7 @@ Out of curiosity, I changed the numeric `BlogID` to a different value — an
 
 While exploring the blog system on **\[redacted\].com**, I created a **test blog** that contained a set of **XSS payloads**. After publishing it, I noticed a familiar set of **three dots (⋮)** on the blog post — a dropdown menu offering several options, including:
 
-![](https://cdn-images-1.medium.com/max/800/1*Ts-QklEQHbd8VxUyS4BmAA.png)
+![](/images/blog/xss-meets-idor/1_Ts-QklEQHbd8VxUyS4BmAA.png)
 
 > _“Email Blog to a Friend”_
 
@@ -102,19 +102,19 @@ Curious, I clicked on it. It redirected me to:
 <https://www.redacted.com/Articles/EmailToFriend.aspx?BlogID=96230>
 ```
 
-![](https://cdn-images-1.medium.com/max/800/0*Kfxh2i7sY8BnPuNw.gif)
+![](/images/blog/xss-meets-idor/0_Kfxh2i7sY8BnPuNw.gif)
 
 And the Page was:
 
-![](https://cdn-images-1.medium.com/max/800/1*UUZy1MlsHL3uf5B2O7D1Gg.png)
+![](/images/blog/xss-meets-idor/1_UUZy1MlsHL3uf5B2O7D1Gg.png)
 
 So, My Evil mind said:
 
-![](https://cdn-images-1.medium.com/max/800/0*vtBD-XQffxbnulPx.gif)
+![](/images/blog/xss-meets-idor/0_vtBD-XQffxbnulPx.gif)
 
 All I did was change the BlogID parameter and that GAVE MEEEE:
 
-![](https://cdn-images-1.medium.com/max/800/1*fs4cebCQwdhbZLPNjtAS4g.png)
+![](/images/blog/xss-meets-idor/1_fs4cebCQwdhbZLPNjtAS4g.png)
 
 ## 📥 What I Saw
 
@@ -142,7 +142,7 @@ Worse, if **other users had XSS payloads**, I could **trigger their JavaScript**
 
 ## 🔥 Combined XSS + IDOR = 💀
 
-![](https://cdn-images-1.medium.com/max/800/0*rw28rFVGw1D3jSvH.gif)
+![](/images/blog/xss-meets-idor/0_rw28rFVGw1D3jSvH.gif)
 
 In my case, this led to a successful **Stored XSS trigger** via the `EmailToFriend.aspx` interface.
 
@@ -200,15 +200,15 @@ From there, I confirmed:
 
 The Preview of captured Info:
 
-![](https://cdn-images-1.medium.com/max/800/1*EL66xFbcSV0Mrf56XnYm7Q.png)
+![](/images/blog/xss-meets-idor/1_EL66xFbcSV0Mrf56XnYm7Q.png)
 
-![](https://cdn-images-1.medium.com/max/800/1*YJm-tFIO2E7D2w7e_Lr2tQ.png)
+![](/images/blog/xss-meets-idor/1_YJm-tFIO2E7D2w7e_Lr2tQ.png)
 
 * * *
 
 ## About the Authors:
 
-![](https://cdn-images-1.medium.com/max/800/0*moCuFsc9KX8GEyvn.gif)
+![](/images/blog/xss-meets-idor/0_moCuFsc9KX8GEyvn.gif)
 
 -   [**Het Patel**](https://www.linkedin.com/in/hetpatel9) — Cybersecurity Enthusiast | Bug Hunter | Coffee Addict ☕
 -   [**Kaif Shah**](https://www.linkedin.com/in/skaif009/) — Security Researcher | CEHv11 | CRTA | Top 4% THM | Bug Hunter

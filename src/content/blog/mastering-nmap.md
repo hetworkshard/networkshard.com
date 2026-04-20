@@ -8,7 +8,7 @@ readTime: "8 min read"
 
 _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://medium.com/@cyberexpertamish)_,_ [_Lay Patel_](https://medium.com/@cynex) _at_ [_Hacker4Help_](https://medium.com/@hacker4help) _as part of our learning initiative on cybersecurity awareness._
 
-![](https://cdn-images-1.medium.com/max/800/0*ArZ_MYtOn9xGhS0L)
+![](/images/blog/mastering-nmap/0_ArZ_MYtOn9xGhS0L.png)
 
 * * *
 
@@ -36,7 +36,7 @@ There are **65,535 ports** per device, but many services use standardized ones. 
 
 ## Why Use Nmap? 🔍
 
-![](https://cdn-images-1.medium.com/max/800/0*cVYt14UIUwe8IDqU.gif)
+![](/images/blog/mastering-nmap/0_cVYt14UIUwe8IDqU.gif)
 
 **Nmap (Network Mapper)** is the industry standard for network discovery and auditing. Why it’s a go-to:
 
@@ -67,7 +67,7 @@ Performs a full **three-way handshake** with the target:
 
 Best for environments where root privileges are not available.
 
-![](https://cdn-images-1.medium.com/max/800/0*6V_IOJuKGS7kGxet.gif)
+![](/images/blog/mastering-nmap/0_6V_IOJuKGS7kGxet.gif)
 
 ## 2\. SYN Scan (-sS)
 
@@ -88,7 +88,7 @@ Disadvantages:
 -   Requires root/sudo access.
 -   Might crash unstable services.
 
-![](https://cdn-images-1.medium.com/max/800/0*mLiWN1dCapio4i5H.gif)
+![](/images/blog/mastering-nmap/0_mLiWN1dCapio4i5H.gif)
 
 ## 3\. UDP Scan (-sU)
 
@@ -104,7 +104,7 @@ Slow but useful. Mitigate with:
 nmap -sU --top-ports 20 <target>
 ```
 
-![](https://cdn-images-1.medium.com/max/800/0*NhLt1x4DJHcmYWof.gif)
+![](/images/blog/mastering-nmap/0_NhLt1x4DJHcmYWof.gif)
 
 * * *
 
@@ -132,7 +132,7 @@ These scans are stealthier and useful against **firewalls** blocking SYN packets
 
 ## Discovering Live Hosts
 
-![](https://cdn-images-1.medium.com/max/800/0*Yc6iGJv-HpKMEi1C.gif)
+![](/images/blog/mastering-nmap/0_Yc6iGJv-HpKMEi1C.gif)
 
 On first connection to a target network in a black box assignment, we need to identify active hosts. This is done using a **ping sweep** with the `-sn` flag:
 
@@ -147,7 +147,7 @@ nmap -sn 192.168.0.1-254nmap -sn 192.168.0.0/24
 
 ## Bypassing Firewalls
 
-![](https://cdn-images-1.medium.com/max/800/0*cvksTnE8dbENhvCU.gif)
+![](/images/blog/mastering-nmap/0_cvksTnE8dbENhvCU.gif)
 
 Some hosts may block ICMP packets, causing them to appear offline. Use `-Pn` to treat all hosts as alive:
 
@@ -204,7 +204,7 @@ nmap --script-help <script-name>
 
 ## Finding Scripts
 
-![](https://cdn-images-1.medium.com/max/800/0*btwJoawApYDvFVHI.gif)
+![](/images/blog/mastering-nmap/0_btwJoawApYDvFVHI.gif)
 
 -   Online: [Nmap Script Index](https://nmap.org/nsedoc/)
 -   Locally: `/usr/share/nmap/scripts`
@@ -222,7 +222,7 @@ sudo wget -O /usr/share/nmap/scripts/<script>.nse \  https://svn.nmap.org/nmap/s
 
 * * *
 
-![](https://cdn-images-1.medium.com/max/800/1*760LZh2IHCNGgFM9ZDIexQ.png)
+![](/images/blog/mastering-nmap/1_760LZh2IHCNGgFM9ZDIexQ.png)
 
 * * *
 
@@ -254,7 +254,7 @@ Nmap Live Host Discovery: [https://tryhackme.com/room/nmap01](https://tryhackme.
 
 ## About Me 👤
 
-![](https://cdn-images-1.medium.com/max/800/0*SRqMpy-WEMp8pFJD.gif)
+![](/images/blog/mastering-nmap/0_SRqMpy-WEMp8pFJD.gif)
 
 Hi! I’m **Het Patel**, a passionate cybersecurity enthusiast and a B.Tech student majoring in IT at Birla Vishvakarma Mahavidyalaya (BVM), Anand.
 

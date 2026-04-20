@@ -6,7 +6,7 @@ tags: ["google-dorks", "recon", "osint"]
 readTime: "5 min read"
 ---
 
-![](https://cdn-images-1.medium.com/max/800/1*24i5eAFrSjB7DnFbzsROqA.jpeg)
+![](/images/blog/google-dorks-guide/1_24i5eAFrSjB7DnFbzsROqA.jpeg)
 
 * * *
 
@@ -168,7 +168,7 @@ This specific dork can find certain vulnerable web consoles.
 
 ## **The Ultimate Google Dork Cheat Sheet**
 
-![](https://cdn-images-1.medium.com/max/800/1*KsKqZ9MTJEKU2mzU3EkCTg.png)
+![](/images/blog/google-dorks-guide/1_KsKqZ9MTJEKU2mzU3EkCTg.png)
 
 ### Finding Vulnerable Websites:
 

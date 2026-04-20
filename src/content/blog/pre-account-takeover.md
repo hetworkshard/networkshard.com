@@ -6,7 +6,7 @@ tags: ["account-takeover", "web-security"]
 readTime: "5 min read"
 ---
 
-![](https://cdn-images-1.medium.com/max/800/1*nP1btgQ8PrYCtCjVTTiSqQ.jpeg)
+![](/images/blog/pre-account-takeover/1_nP1btgQ8PrYCtCjVTTiSqQ.jpeg)
 
 _This write-up has been prepared under the guidance of_ [_Amish Patel_](https://medium.com/@cyberexpertamish)_,_ [_Lay Patel_](https://medium.com/@cynex) _at_ [_Hacker4Help_](https://medium.com/@hacker4help) _as part of our learning initiative on cybersecurity awareness._
 
