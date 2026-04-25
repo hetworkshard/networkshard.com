@@ -1,6 +1,6 @@
 ---
-title: "I checked my VM's SSH logs on a whim. The internet was already at the door."
-description: "30 days of SSH brute-force attempts against an exposed Oracle Cloud VM, by the numbers. Plus a dashboard with a spinning globe."
+title: "SSH Under Siege: 30 Days of Brute-Force Telemetry on an Exposed VM 🌐"
+description: "1,595 attempts. 64 IPs. 20+ countries. A month of SSH brute-force traffic against my Oracle Cloud VM — by the numbers, with a globe to watch it."
 date: 2026-04-25
 category: "operations"
 tags: ["ssh", "brute-force", "fail2ban", "oracle-cloud", "telemetry"]
