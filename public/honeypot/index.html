@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SSH honeypot telemetry · networkshard</title>
+<meta name="description" content="48 hours of SSH honeypot data: 38K events, 374 IPs, 12 malware samples, 3 competing botnets, visualised on a globe." />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="canonical" href="https://networkshard.com/honeypot/" />
+<link rel="preconnect" href="https://unpkg.com" />
+<script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+<script src="https://unpkg.com/globe.gl@2.32.0/dist/globe.gl.min.js"></script>
+<style>
+  :root {
+    --bg: #02060d;
+    --glass: rgba(12, 18, 28, 0.55);
+    --glass-2: rgba(20, 28, 40, 0.55);
+    --line: rgba(120, 160, 200, 0.14);
+    --line-strong: rgba(120, 160, 200, 0.28);
+    --text: #dde6f2;
+    --dim: #7a8aa3;
+    --accent: #ff5b6e;
+    --accent-2: #4cc9f0;
+    --good: #6ee7b7;
+    --warn: #fbbf24;
+    --purple: #a78bfa;
+    --mono: ui-monospace, SFMono-Regular, "JetBrains Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; overflow: hidden; }
+  body {
+    font: 13px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    background: radial-gradient(circle at 50% 50%, #050b18 0%, #01030a 70%);
+    color: var(--text);
+  }
+
+  #globe { position: fixed; inset: 0; z-index: 0; }
+  #vignette {
+    position: fixed; inset: 0; z-index: 1; pointer-events: none;
+    background:
+      radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.55) 90%),
+      linear-gradient(90deg, rgba(0,0,0,0.55) 0%, transparent 22%, transparent 78%, rgba(0,0,0,0.55) 100%);
+  }
+
+  .rail {
+    position: fixed; top: 0; bottom: 0; z-index: 2;
+    width: 330px; padding: 16px;
+    display: flex; flex-direction: column; gap: 12px;
+    pointer-events: none;
+    overflow-y: auto; overflow-x: hidden;
+    -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 calc(100% - 20px), transparent 100%);
+            mask-image: linear-gradient(180deg, #000 0%, #000 calc(100% - 20px), transparent 100%);
+    scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar { display: none; }
+  .rail.left  { left: 0; }
+  .rail.right { right: 0; }
+  .rail > * { pointer-events: auto; }
+
+  .panel {
+    background: var(--glass);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 16px;
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 8px 24px rgba(0,0,0,0.35);
+    flex-shrink: 0;
+  }
+  .panel h2 {
+    margin: 0 0 10px;
+    font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .title h1 {
+    margin: 0 0 6px;
+    font-size: 17px; font-weight: 600; letter-spacing: -0.005em;
+  }
+  .title .dot {
+    display: inline-block; width: 8px; height: 8px;
+    background: var(--accent); border-radius: 50%; margin-right: 9px;
+    vertical-align: 2px;
+    box-shadow: 0 0 0 0 var(--accent), 0 0 10px var(--accent);
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(255,91,110,0.55), 0 0 10px rgba(255,91,110,0.8); }
+    100% { box-shadow: 0 0 0 14px rgba(255,91,110,0), 0 0 10px rgba(255,91,110,0.8); }
+  }
+  .title .meta {
+    color: var(--dim); font-family: var(--mono); font-size: 11px; line-height: 1.6;
+  }
+  .title .meta strong { color: var(--text); font-weight: 500; }
+
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat { background: var(--glass-2); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .stat .num {
+    font-family: var(--mono); font-size: 22px; font-weight: 600;
+    line-height: 1.1; color: var(--text); font-variant-numeric: tabular-nums;
+  }
+  .stat .num.accent { color: var(--accent); }
+  .stat .num.good { color: var(--good); }
+  .stat .num.warn { color: var(--warn); }
+  .stat .num.blue { color: var(--accent-2); }
+  .stat .label { color: var(--dim); font-size: 10px; margin-top: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  table { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 11.5px; }
+  th, td { text-align: left; padding: 5px 4px; border-bottom: 1px solid var(--line); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  th { color: var(--dim); font-weight: 500; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; padding-bottom: 7px; }
+  td.n { text-align: right; color: var(--accent); font-variant-numeric: tabular-nums; }
+  td .flag { margin-right: 6px; }
+  td .ip { color: var(--accent-2); }
+
+  .feed {
+    flex: 1; overflow: hidden; position: relative;
+    font-family: var(--mono); font-size: 11px;
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+            mask-image: linear-gradient(180deg, transparent 0, #000 24px, #000 calc(100% - 24px), transparent 100%);
+  }
+  .feed-inner { position: absolute; inset: 0; overflow-y: auto; padding-right: 6px; }
+  .feed-inner::-webkit-scrollbar { width: 4px; }
+  .feed-inner::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 2px; }
+  .feed-row {
+    padding: 5px 0; border-bottom: 1px dotted var(--line);
+    display: grid; grid-template-columns: 50px 1fr; gap: 8px; align-items: baseline;
+    animation: fadein 0.5s ease;
+  }
+  @keyframes fadein { from { opacity: 0; transform: translateX(6px); } to { opacity: 1; transform: none; } }
+  .feed-row .t { color: var(--dim); }
+  .feed-row .ip { color: var(--accent-2); }
+  .feed-row .u { color: var(--warn); }
+  .feed-row .ok { color: var(--good); }
+  .feed-row .fail { color: var(--accent); }
+  .feed-row .c { color: var(--dim); }
+
+  .cmd-list { font-family: var(--mono); font-size: 11px; }
+  .cmd-row {
+    padding: 4px 0; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; gap: 8px;
+  }
+  .cmd-row .cmd {
+    color: var(--text); overflow: hidden; text-overflow: ellipsis;
+    white-space: nowrap; flex: 1; min-width: 0;
+  }
+  .cmd-row .cnt { color: var(--accent); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+  .payload-list { font-family: var(--mono); font-size: 11px; }
+  .payload-row {
+    padding: 5px 0; border-bottom: 1px solid var(--line);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .payload-row .dot-tag {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .payload-row .name { color: var(--text); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .payload-row .type { color: var(--dim); font-size: 10px; flex-shrink: 0; }
+
+  .campaign-bar {
+    display: flex; gap: 8px; margin-bottom: 8px;
+  }
+  .campaign-chip {
+    background: var(--glass-2); border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 10px; flex: 1; text-align: center;
+  }
+  .campaign-chip .cname { font-size: 10px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.05em; }
+  .campaign-chip .cnum { font-family: var(--mono); font-size: 16px; font-weight: 600; margin-top: 2px; }
+  .campaign-chip .csub { font-family: var(--mono); font-size: 10px; color: var(--dim); }
+
+  .client-list { font-family: var(--mono); font-size: 11px; }
+  .client-row {
+    padding: 4px 0; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; gap: 8px;
+  }
+  .client-row .ver { color: var(--purple); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+  .client-row .cnt { color: var(--accent); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+  .cred-list { font-family: var(--mono); font-size: 11px; }
+  .cred-row {
+    padding: 4px 0; border-bottom: 1px solid var(--line);
+    display: flex; justify-content: space-between; gap: 8px;
+  }
+  .cred-row .pair { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; min-width: 0; }
+  .cred-row .pair .u { color: var(--warn); }
+  .cred-row .pair .p { color: var(--accent-2); }
+  .cred-row .cnt { color: var(--accent); flex-shrink: 0; font-variant-numeric: tabular-nums; }
+
+  .sparkline {
+    position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%);
+    z-index: 2;
+    width: clamp(360px, calc(100vw - 720px), 560px);
+    background: var(--glass); border: 1px solid var(--line);
+    border-radius: 10px; padding: 12px 16px 10px;
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+  }
+  .sparkline .label {
+    color: var(--dim); font-family: var(--mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin: 0 0 6px;
+  }
+  .sparkline canvas { display: block; width: 100%; height: 40px; }
+
+  footer {
+    position: fixed; right: 14px; bottom: 10px; z-index: 2;
+    color: var(--dim); font-family: var(--mono); font-size: 10px; opacity: 0.6;
+  }
+
+  @media (max-width: 1100px) {
+    .rail { width: 290px; padding: 12px; }
+    .sparkline { display: none; }
+  }
+  @media (max-width: 760px) {
+    .rail.left { width: 100%; height: auto; bottom: auto; padding: 10px; position: relative; }
+    .rail.right { display: none; }
+    #globe { position: relative; height: 50vh; }
+    html, body { overflow: auto; }
+  }
+</style>
+</head>
+<body>
+
+<div id="globe"></div>
+<div id="vignette"></div>
+
+<aside class="rail left">
+  <section class="panel title">
+    <h1><span class="dot"></span>Honeypot telemetry</h1>
+    <div class="meta">
+      host  <strong>oracle cloud arm vm</strong><br/>
+      bait  <strong>32-core Xeon / 64GB / Ubuntu 22.04</strong><br/>
+      origin <strong id="home-loc"></strong><br/>
+      window <strong id="window-hours"></strong>h &middot;
+      apr 27&ndash;29, 2026
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>48-hour summary</h2>
+    <div class="stats">
+      <div class="stat"><div class="num accent" id="s-sessions"></div><div class="label">sessions</div></div>
+      <div class="stat"><div class="num" id="s-ips"></div><div class="label">unique IPs</div></div>
+      <div class="stat"><div class="num good" id="s-logins"></div><div class="label">logins accepted</div></div>
+      <div class="stat"><div class="num warn" id="s-payloads"></div><div class="label">payloads caught</div></div>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Attack campaigns</h2>
+    <div class="campaign-bar" id="campaigns"></div>
+  </section>
+
+  <section class="panel">
+    <h2>By country</h2>
+    <table id="top-countries">
+      <thead><tr><th>Country</th><th style="text-align:right">IPs</th><th class="n">Hits</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>Top credentials</h2>
+    <div class="cred-list" id="top-creds"></div>
+  </section>
+
+  <section class="panel">
+    <h2>SSH clients</h2>
+    <div class="client-list" id="top-clients"></div>
+  </section>
+</aside>
+
+<aside class="rail right">
+  <section class="panel">
+    <h2>Top source IPs</h2>
+    <div style="overflow:auto; max-height: 30vh;">
+      <table id="top-ips">
+        <thead><tr><th>IP</th><th>Loc</th><th class="n">Hits</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Captured payloads</h2>
+    <div class="payload-list" id="payloads"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Top commands executed</h2>
+    <div class="cmd-list" id="top-cmds" style="max-height: 22vh; overflow-y: auto;"></div>
+  </section>
+
+  <section class="panel" style="flex: 1 1 auto; display: flex; flex-direction: column; min-height: 200px;">
+    <h2>Login feed</h2>
+    <div class="feed"><div class="feed-inner" id="feed"></div></div>
+  </section>
+</aside>
+
+<div class="sparkline panel">
+  <div class="label"><span>Events / hour</span><span id="spark-max"></span></div>
+  <canvas id="spark"></canvas>
+</div>
+
+<footer>
+  <a href="/" style="color:inherit;text-decoration:none;border-bottom:1px dotted currentColor">&larr; networkshard.com</a>
+  &nbsp;&middot;&nbsp; data: cowrie honeypot + ip-api.com
+  &nbsp;&middot;&nbsp; <a href="/blog/ssh-honeypot-48-hours/" style="color:inherit;text-decoration:none;border-bottom:1px dotted currentColor">read the blog</a>
+</footer>
+
+<script>
+const ESC_MAP = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;', '`': '&#96;' };
+const esc = (s) => String(s ?? '').replace(/[&<>"'`]/g, c => ESC_MAP[c]);
+const flag = (cc) => {
+  if (!cc || cc === '??' || cc.length !== 2) return '\u{1F3F4}';
+  if (!/^[A-Za-z]{2}$/.test(cc)) return '\u{1F3F4}';
+  return String.fromCodePoint(...[...cc.toUpperCase()].map(c => 0x1F1A5 + c.charCodeAt(0)));
+};
+const fmt = (n) => n.toLocaleString();
+
+const CAMPAIGN_COLORS = { bendi: '#ff5b6e', mdrfckr: '#4cc9f0', redtail: '#fbbf24' };
+
+(async () => {
+  const data = await fetch('data.json?_=' + Date.now()).then(r => r.json());
+
+  const home = data.home;
+  document.getElementById('home-loc').textContent =
+    `${flag(home.cc)} ${[home.city, home.country].filter(Boolean).join(', ')}`;
+  document.getElementById('window-hours').textContent = data.window_hours;
+  document.getElementById('s-sessions').textContent = fmt(data.total_sessions);
+  document.getElementById('s-ips').textContent = fmt(data.unique_ips);
+  document.getElementById('s-logins').textContent = fmt(data.successful_logins);
+  document.getElementById('s-payloads').textContent = data.payloads_captured;
+
+  // campaigns
+  const cBar = document.getElementById('campaigns');
+  (data.campaign_stats || []).forEach(c => {
+    const chip = document.createElement('div');
+    chip.className = 'campaign-chip';
+    chip.innerHTML =
+      `<div class="cname">${esc(c.name)}</div>` +
+      `<div class="cnum" style="color:${esc(c.color)}">${fmt(c.commands)}</div>` +
+      `<div class="csub">${c.ips} IPs</div>`;
+    cBar.appendChild(chip);
+  });
+
+  // globe
+  const points = Object.entries(data.ip_geo).map(([ip, g]) => ({
+    lat: g.lat, lng: g.lon, n: g.n, ip,
+    label: `<div style="font-family:ui-monospace,monospace;font-size:11px;background:rgba(12,18,28,0.85);border:1px solid rgba(120,160,200,0.28);padding:6px 9px;border-radius:6px;backdrop-filter:blur(10px);">
+              <span style="color:#4cc9f0">${esc(ip)}</span> <span style="color:#ff5b6e;font-weight:600">${Number(g.n)||0}&times;</span><br/>
+              <span style="color:#dde6f2">${esc([g.city, g.country].filter(Boolean).join(', '))}</span><br/>
+              <span style="color:#7a8aa3">${esc((g.org||'').slice(0,42))}</span>
+            </div>`,
+  }));
+
+  const arcs = points.map(p => ({
+    startLat: p.lat, startLng: p.lng,
+    endLat: home.lat, endLng: home.lon,
+    n: p.n,
+  }));
+
+  const maxN = Math.max(1, ...points.map(p => p.n));
+
+  const cityMap = new Map();
+  Object.entries(data.ip_geo).forEach(([ip, g]) => {
+    if (!g.city) return;
+    const key = `${g.city}|${g.country}`;
+    if (!cityMap.has(key)) cityMap.set(key, { city: g.city, country: g.country, lat: g.lat, lng: g.lon, n: 0 });
+    const c = cityMap.get(key);
+    c.n += g.n;
+    c.lat = g.lat; c.lng = g.lon;
+  });
+  const labels = [...cityMap.values()].sort((a, b) => b.n - a.n).slice(0, 20);
+  labels.push({ city: home.city, country: home.country, lat: home.lat, lng: home.lon, n: 0, isHome: true });
+
+  const globe = Globe()
+    (document.getElementById('globe'))
+    .globeImageUrl('/ssh-attacks/img/earth-night.jpg')
+    .bumpImageUrl('/ssh-attacks/img/earth-topology.png')
+    .backgroundImageUrl('/ssh-attacks/img/night-sky.png')
+    .showGraticules(true)
+    .atmosphereColor('#ff5b6e')
+    .atmosphereAltitude(0.22)
+    .pointsData(points)
+    .pointLat('lat').pointLng('lng')
+    .pointAltitude(d => 0.005 + 0.22 * Math.sqrt(d.n / maxN))
+    .pointRadius(d => 0.2 + 0.6 * Math.sqrt(d.n / maxN))
+    .pointColor(() => '#ff5b6e')
+    .pointLabel('label')
+    .pointResolution(10)
+    .labelsData(labels)
+    .labelLat('lat').labelLng('lng')
+    .labelText(d => d.isHome ? `◉ ${d.city}` : d.city)
+    .labelSize(d => d.isHome ? 0.5 : 0.32 + 0.25 * Math.min(1, d.n / maxN))
+    .labelDotRadius(0)
+    .labelColor(d => d.isHome ? '#6ee7b7' : 'rgba(220,230,242,0.92)')
+    .labelResolution(2)
+    .labelAltitude(0.012)
+    .arcsData(arcs)
+    .arcStartLat('startLat').arcStartLng('startLng')
+    .arcEndLat('endLat').arcEndLng('endLng')
+    .arcColor(() => ['rgba(255,91,110,0.05)', 'rgba(255,91,110,0.85)'])
+    .arcStroke(d => 0.3 + 0.6 * Math.sqrt(d.n / maxN))
+    .arcDashLength(0.35)
+    .arcDashGap(1.4)
+    .arcDashAnimateTime(d => 1800 + Math.random() * 1500)
+    .arcAltitudeAutoScale(0.5);
+
+  globe.htmlElementsData([{ ...home, type: 'home' }])
+    .htmlLat('lat').htmlLng('lon')
+    .htmlAltitude(0.01)
+    .htmlElement(() => {
+      const el = document.createElement('div');
+      el.innerHTML = `
+        <div style="position:relative;width:14px;height:14px;">
+          <div style="position:absolute;inset:0;background:#6ee7b7;border-radius:50%;box-shadow:0 0 12px #6ee7b7;"></div>
+          <div style="position:absolute;inset:-6px;border:1px solid #6ee7b7;border-radius:50%;animation:ring 2s infinite;"></div>
+        </div>
+        <style>@keyframes ring { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2.4); opacity: 0; } }</style>`;
+      return el;
+    });
+
+  globe.controls().autoRotate = true;
+  globe.controls().autoRotateSpeed = 0.35;
+  globe.controls().enableZoom = true;
+  globe.controls().minDistance = 180;
+  globe.controls().maxDistance = 600;
+  globe.pointOfView({ lat: home.lat, lng: home.lon, altitude: 2.4 }, 0);
+
+  window.addEventListener('resize', () => {
+    globe.width(window.innerWidth).height(window.innerHeight);
+  });
+  globe.width(window.innerWidth).height(window.innerHeight);
+
+  // countries
+  const tC = document.querySelector('#top-countries tbody');
+  data.top_countries.slice(0, 10).forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td><span class="flag">${flag(r.cc)}</span>${esc((r.country || r.cc).slice(0, 18))}</td>` +
+      `<td style="text-align:right;color:var(--dim);font-family:var(--mono);font-size:11px">${r.ips || ''}</td>` +
+      `<td class="n">${fmt(Number(r.count) || 0)}</td>`;
+    tC.appendChild(tr);
+  });
+
+  // top ips
+  const tIp = document.querySelector('#top-ips tbody');
+  data.top_ips.slice(0, 20).forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td><span class="ip">${esc(r.ip)}</span></td>` +
+      `<td><span class="flag">${flag(r.cc)}</span>${esc((r.city || r.country || '').slice(0, 12))}</td>` +
+      `<td class="n">${fmt(Number(r.count) || 0)}</td>`;
+    tIp.appendChild(tr);
+  });
+
+  // top credentials
+  const credEl = document.getElementById('top-creds');
+  data.top_creds.slice(0, 12).forEach(r => {
+    const parts = r.cred.split(':');
+    const u = parts[0] || '';
+    const p = parts.slice(1).join(':') || '';
+    const row = document.createElement('div');
+    row.className = 'cred-row';
+    row.innerHTML =
+      `<span class="pair"><span class="u">${esc(u)}</span>:<span class="p">${esc(p)}</span></span>` +
+      `<span class="cnt">${fmt(r.count)}</span>`;
+    credEl.appendChild(row);
+  });
+
+  // SSH clients
+  const clEl = document.getElementById('top-clients');
+  data.top_clients.slice(0, 10).forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'client-row';
+    const short = r.client.replace('SSH-2.0-', '');
+    row.innerHTML =
+      `<span class="ver">${esc(short)}</span>` +
+      `<span class="cnt">${fmt(r.count)}</span>`;
+    clEl.appendChild(row);
+  });
+
+  // payloads
+  const plEl = document.getElementById('payloads');
+  data.payloads.forEach(p => {
+    const color = CAMPAIGN_COLORS[p.campaign] || 'var(--dim)';
+    const row = document.createElement('div');
+    row.className = 'payload-row';
+    row.innerHTML =
+      `<span class="dot-tag" style="background:${color}"></span>` +
+      `<span class="name">${esc(p.name)}</span>` +
+      `<span class="type">${esc(p.type)} &middot; ${esc(p.size)}</span>`;
+    plEl.appendChild(row);
+  });
+
+  // top commands
+  const cmdEl = document.getElementById('top-cmds');
+  data.top_commands.slice(0, 20).forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'cmd-row';
+    const short = r.cmd.length > 60 ? r.cmd.slice(0, 57) + '...' : r.cmd;
+    row.innerHTML =
+      `<span class="cmd">${esc(short)}</span>` +
+      `<span class="cnt">${fmt(r.count)}</span>`;
+    cmdEl.appendChild(row);
+  });
+
+  // login feed
+  const feed = document.getElementById('feed');
+  data.recent.slice().reverse().forEach(e => {
+    const d = new Date(e.ts);
+    const t = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const date = (d.getMonth() + 1) + '/' + d.getDate();
+    const statusCls = e.success ? 'ok' : 'fail';
+    const statusTxt = e.success ? '✓' : '✗';
+    const row = document.createElement('div');
+    row.className = 'feed-row';
+    row.innerHTML =
+      `<span class="t">${esc(date + ' ' + t)}</span>` +
+      `<span><span class="${statusCls}">${statusTxt}</span> <span class="ip">${esc(e.ip)}</span> ` +
+      `<span class="u">${esc((e.user||'-').slice(0,10))}:${esc((e.pass||'').slice(0,12))}</span></span>`;
+    feed.appendChild(row);
+  });
+
+  // sparkline
+  const cv = document.getElementById('spark');
+  const series = data.hourly;
+  function drawSpark() {
+    const ctx = cv.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const w = cv.clientWidth, h = cv.clientHeight;
+    if (!w || !h) return;
+    cv.width = w * dpr; cv.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, w, h);
+    if (!series.length) return;
+    const minT = series[0].t, maxT = series[series.length - 1].t;
+    const maxV = Math.max(...series.map(p => p.n));
+    document.getElementById('spark-max').textContent = `peak ${fmt(maxV)}/hr`;
+
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, 'rgba(255,91,110,0.55)');
+    grad.addColorStop(1, 'rgba(255,91,110,0.02)');
+
+    const pad = 1;
+    const xy = (p) => [
+      ((p.t - minT) / (maxT - minT || 1)) * (w - pad * 2) + pad,
+      h - pad - (p.n / maxV) * (h - pad * 2),
+    ];
+
+    ctx.beginPath();
+    series.forEach((p, i) => { const [x, y] = xy(p); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.lineTo(w - pad, h); ctx.lineTo(pad, h); ctx.closePath();
+    ctx.fillStyle = grad; ctx.fill();
+
+    ctx.beginPath();
+    series.forEach((p, i) => { const [x, y] = xy(p); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+    ctx.strokeStyle = '#ff5b6e'; ctx.lineWidth = 1.2; ctx.stroke();
+  }
+  drawSpark();
+  let _sparkTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(_sparkTimer);
+    _sparkTimer = setTimeout(drawSpark, 80);
+  });
+})();
+</script>
+</body>
+</html>
