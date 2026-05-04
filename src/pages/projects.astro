@@ -1,83 +1,231 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-const projects = [
-  {
-    name: "SSH Attack Telemetry",
-    description: "Live globe visualising 30 days of SSH brute-force attempts against my exposed Oracle Cloud VM. 1,595 attempts, 64 unique IPs, 20+ countries — all bounced off pubkey-only auth.",
-    tech: ["Astro", "globe.gl", "Three.js", "Python", "journalctl"],
-    github: "",
-    href: "/ssh-attacks/",
-  },
-  {
-    name: "VulnInsights",
-    description: "Vulnerability insights and tracking dashboard for security assessments and penetration testing workflows.",
-    tech: ["TypeScript", "CSS", "JavaScript"],
-    github: "https://github.com/hett-patell/vulninsights",
-  },
-  {
-    name: "Cinemax",
-    description: "Full-stack movie booking and management platform with user-facing frontend and admin panel.",
-    tech: ["PHP", "JavaScript", "CSS", "HTML"],
-    github: "https://github.com/hett-patell/cinemax",
-  },
-  {
-    name: "QuickMeds",
-    description: "Quick medicine lookup and pharmacy management application.",
-    tech: [],
-    github: "https://github.com/hett-patell/QuickMeds",
-  },
-  {
-    name: "Table No 21",
-    description: "Restaurant POS (Point of Sale) system for streamlined order management, billing, and table tracking.",
-    tech: ["POS", "Restaurant Management", "Order System"],
-    github: "",
-  },
+type ProjectItem = {
+    name: string;
+    description: string;
+    tech: string[];
+    github?: string;
+    href?: string;
+};
+
+const projects: ProjectItem[] = [
+    {
+        name: "ShardC2",
+        description:
+            "Policy-aware command-and-control framework for authorized red team operations and security research, with a Go server/agent architecture, operator dashboard, RBAC, audit logs, encrypted payload support, and safety controls.",
+        tech: [
+            "Go",
+            "JavaScript",
+            "PostgreSQL",
+            "Redis",
+            "WebSocket",
+            "Docker",
+        ],
+        github: "https://github.com/hett-patell/ShardC2",
+    },
+    {
+        name: "ShardPass",
+        description:
+            "Local-first Chrome MV3 TOTP authenticator with inline autofill, encrypted local vault, QR/import flows, and multi-account matching for 2FA-heavy workflows.",
+        tech: ["TypeScript", "React", "Chrome MV3", "Tailwind", "Vite", "Bun"],
+        github: "https://github.com/hett-patell/ShardPass",
+    },
+    {
+        name: "SSH Attack Telemetry",
+        description:
+            "Live globe visualising 30 days of SSH brute-force attempts against my exposed Oracle Cloud VM. 1,595 attempts, 64 unique IPs, 20+ countries — all bounced off pubkey-only auth.",
+        tech: ["Astro", "globe.gl", "Three.js", "Python", "journalctl"],
+        href: "/ssh-attacks/",
+    },
+    {
+        name: "VulnInsights",
+        description:
+            "Vulnerability insights and tracking dashboard for security assessments and penetration testing workflows.",
+        tech: ["TypeScript", "CSS", "JavaScript"],
+        github: "https://github.com/hett-patell/vulninsights",
+    },
+    {
+        name: "Cinemax",
+        description:
+            "Full-stack movie booking and management platform with user-facing frontend and admin panel.",
+        tech: ["PHP", "JavaScript", "CSS", "HTML"],
+        github: "https://github.com/hett-patell/cinemax",
+    },
+    {
+        name: "QuickMeds",
+        description:
+            "Quick medicine lookup and pharmacy management application.",
+        tech: ["JavaScript", "Pharmacy", "Medicine Lookup"],
+        github: "https://github.com/hett-patell/QuickMeds",
+    },
+    {
+        name: "Table No 21",
+        description:
+            "Restaurant POS (Point of Sale) system for streamlined order management, billing, and table tracking.",
+        tech: ["POS", "Restaurant Management", "Order System"],
+    },
 ];
 
+const tools: ProjectItem[] = [
+    {
+        name: "Smoker Shell Refined",
+        description:
+            "Refined PHP shell toolkit for authorized penetration testing labs, organized into Linux and Windows variants with OS-aware assessment modules.",
+        tech: ["PHP", "Linux", "Windows", "Red Teaming"],
+        github: "https://github.com/hett-patell/Smoker-backdoor-refined",
+    },
+];
 ---
 
-<BaseLayout title="Projects — Security Tools & Web Applications" description="Cybersecurity tools and web applications built by Het Patel — including vulnerability tracking dashboards and full-stack platforms.">
-  <!-- Projects -->
-  <section class="pb-10 md:pb-12">
-    <header class="mb-6">
-      <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-2">Projects</h1>
-      <p class="text-base text-muted-foreground">Things I've built and worked on.</p>
-    </header>
+<BaseLayout
+    title="Projects — Security Tools & Web Applications"
+    description="Cybersecurity tools and web applications built by Het Patel — including vulnerability tracking dashboards and full-stack platforms."
+>
+    <!-- Projects -->
+    <section class="pb-10 md:pb-12">
+        <header class="mb-6">
+            <h1
+                class="text-3xl md:text-4xl font-bold tracking-tight text-foreground leading-tight mb-2"
+            >
+                Projects
+            </h1>
+            <p class="text-base text-muted-foreground">
+                Things I've built and worked on.
+            </p>
+        </header>
 
-    <div class="flex flex-col gap-3">
-      {projects.map(project => (
-        <div class="bento-card">
-          <div class="mb-2">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/60">/projects/{project.name.toLowerCase().replace(/\s+/g, '-')}</span>
-            <h3 class="text-base font-semibold text-foreground mt-1">{project.name}</h3>
-          </div>
-          <p class="text-sm text-muted-foreground leading-relaxed mb-3">{project.description}</p>
-          <div class="flex flex-wrap items-center justify-between gap-3">
-            {project.tech.length > 0 && (
-              <div class="flex flex-wrap items-center gap-1.5">
-                <span class="text-[10px] font-mono font-semibold uppercase tracking-wider text-muted-foreground/60 mr-1">Technologies:</span>
-                {project.tech.map(t => (
-                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-mono bg-muted/70 text-muted-foreground border border-border/60">{t}</span>
-                ))}
-              </div>
-            )}
-            <div class="flex items-center gap-3 shrink-0">
-              {project.href && (
-                <a href={project.href} class="text-[11px] font-mono text-primary hover:text-primary-hover transition-colors" aria-label={`${project.name} live demo`}>
-                  live demo →
-                </a>
-              )}
-              {project.github && (
-                <a href={project.github} target="_blank" rel="noopener" class="text-muted-foreground hover:text-foreground transition-colors" aria-label={`${project.name} on GitHub`}>
-                  <svg class="size-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                </a>
-              )}
-            </div>
-          </div>
+        <div class="flex flex-col gap-3">
+            {
+                projects.map((project) => (
+                    <div class="bento-card">
+                        <div class="mb-2">
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/60">
+                                /projects/
+                                {project.name
+                                    .toLowerCase()
+                                    .replace(/\s+/g, "-")}
+                            </span>
+                            <h3 class="text-base font-semibold text-foreground mt-1">
+                                {project.name}
+                            </h3>
+                        </div>
+                        <p class="text-sm text-muted-foreground leading-relaxed mb-3">
+                            {project.description}
+                        </p>
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            {project.tech.length > 0 && (
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <span class="text-[10px] font-mono font-semibold uppercase tracking-wider text-muted-foreground/60 mr-1">
+                                        Technologies:
+                                    </span>
+                                    {project.tech.map((t) => (
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-mono bg-muted/70 text-muted-foreground border border-border/60">
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                            <div class="flex items-center gap-3 shrink-0">
+                                {project.href && (
+                                    <a
+                                        href={project.href}
+                                        class="text-[11px] font-mono text-primary hover:text-primary-hover transition-colors"
+                                        aria-label={`${project.name} live demo`}
+                                    >
+                                        live demo →
+                                    </a>
+                                )}
+                                {project.github && (
+                                    <a
+                                        href={project.github}
+                                        target="_blank"
+                                        rel="noopener"
+                                        class="text-muted-foreground hover:text-foreground transition-colors"
+                                        aria-label={`${project.name} on GitHub`}
+                                    >
+                                        <svg
+                                            class="size-4"
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                        >
+                                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                        </svg>
+                                    </a>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ))
+            }
         </div>
-      ))}
-    </div>
-  </section>
+    </section>
 
+    <!-- Small Tools -->
+    <section class="pb-10 md:pb-12">
+        <header class="mb-6">
+            <h2
+                class="text-2xl md:text-3xl font-bold tracking-tight text-foreground leading-tight mb-2"
+            >
+                Small tools
+            </h2>
+            <p class="text-sm text-muted-foreground">
+                Focused security utilities and experiments.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {
+                tools.map((tool) => (
+                    <div class="bento-card">
+                        <div class="mb-2">
+                            <span class="text-[10px] font-mono uppercase tracking-widest text-muted-foreground/60">
+                                /tools/
+                                {tool.name.toLowerCase().replace(/\s+/g, "-")}
+                            </span>
+                            <h3 class="text-base font-semibold text-foreground mt-1">
+                                {tool.name}
+                            </h3>
+                        </div>
+                        <p class="text-sm text-muted-foreground leading-relaxed mb-3">
+                            {tool.description}
+                        </p>
+                        <div class="flex flex-wrap items-center justify-between gap-3">
+                            {tool.tech.length > 0 && (
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <span class="text-[10px] font-mono font-semibold uppercase tracking-wider text-muted-foreground/60 mr-1">
+                                        Technologies:
+                                    </span>
+                                    {tool.tech.map((t) => (
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-mono bg-muted/70 text-muted-foreground border border-border/60">
+                                            {t}
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                            {tool.github && (
+                                <a
+                                    href={tool.github}
+                                    target="_blank"
+                                    rel="noopener"
+                                    class="inline-flex items-center gap-1.5 text-[11px] font-mono text-primary hover:text-primary-hover transition-colors"
+                                    aria-label={`${tool.name} on GitHub`}
+                                >
+                                    GitHub
+                                    <svg
+                                        class="size-3.5"
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                        aria-hidden="true"
+                                    >
+                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                                    </svg>
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                ))
+            }
+        </div>
+    </section>
 </BaseLayout>
