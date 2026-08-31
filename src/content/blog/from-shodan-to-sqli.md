@@ -17,7 +17,7 @@ The first signal was an indexed HTTP service with an Apache banner and an older-
 
 The version string was a triage clue, not the vulnerability. My early mistake was letting "old Apache" frame the rest of the investigation. Nothing retained connects that banner to the later input-handling behavior, and updating Apache alone would not repair unsafe application SQL.
 
-![Captured Shodan result showing Apache HTTP service metadata and banner for the investigated host](/images/blog/from-shodan-to-sqli/1_Cl2IrfAiJoOR9jfZf-maWA.png)
+![Captured Shodan result showing Apache HTTP service metadata and banner for the investigated host](/images/blog/from-shodan-to-sqli/1_Cl2IrfAiJoOR9jfZf-maWA.webp)
 
 *Shodan service metadata captured at the time of the investigation. The banner identified an Apache HTTP service and version string — a triage lead, not proof of ownership, authorization, patch status, exploitability, or SQL injection.*
 
@@ -25,13 +25,13 @@ The version string was a triage clue, not the vulnerability. My early mistake wa
 
 Opening the HTTP service rendered a directory index. Named entries and nested folders were visible, so we followed the application path rather than spraying unrelated files.
 
-![Exposed directory index rendered by the investigated HTTP service, showing named entries and folder structure](/images/blog/from-shodan-to-sqli/1_VWcHFyy6JiBbMCnefzWX5w.png)
+![Exposed directory index rendered by the investigated HTTP service, showing named entries and folder structure](/images/blog/from-shodan-to-sqli/1_VWcHFyy6JiBbMCnefzWX5w.webp)
 
 *Directory listing observed after navigating to the indexed HTTP service. Named entries and nested folders were visible. This proved an exposed directory index — not sensitive-file access, database access, or that every listed path reached the login handler.*
 
 We checked several visible application directories and repeatedly landed on the same login interface. That was a useful convergence point. It was not evidence of valid credentials or a bypass.
 
-![Login interface reached during traversal of the exposed application directories](/images/blog/from-shodan-to-sqli/1_j5SQexw4h8RuJ4kqRYhvjw.png)
+![Login interface reached during traversal of the exposed application directories](/images/blog/from-shodan-to-sqli/1_j5SQexw4h8RuJ4kqRYhvjw.webp)
 
 *Login form reached by following the application paths from the directory listing. Its appearance established that a login interface existed on the investigated service — not valid credentials, backend technology confirmation, or authentication weakness.*
 
@@ -88,7 +88,7 @@ LIMIT 1;
 
 The doubled quote near `admin''` explains why the variation was interesting: user input appeared adjacent to a quoted SQL value, and the parser complained near that location. The response also exposed a Windows/XAMPP application path and database-driver line number; those target-specific path details are omitted here because they add identification risk without improving the reasoning.
 
-![MySQL syntax error returned after the single-quote username variation, showing error 1064 and query structure](/images/blog/from-shodan-to-sqli/1_AUm2rqX_fxkcEf8bpALKpA.png)
+![MySQL syntax error returned after the single-quote username variation, showing error 1064 and query structure](/images/blog/from-shodan-to-sqli/1_AUm2rqX_fxkcEf8bpALKpA.webp)
 
 *Database error returned after appending a single quote to the username field. The response visibly contained MySQL error 1064, a query fragment referencing `user_login_details`, and a CodeIgniter-style driver path. Server-identifying path details remain visible in this historical capture. By itself, this response does not prove repeatability, complete query control, data extraction, or authentication bypass.*
 
@@ -123,11 +123,11 @@ That logic does **not** guarantee a bypass. It depends on query construction, wh
 
 A screenshot retained from the historical sequence shows an authenticated-looking dashboard after the described submission. A second screenshot shows a distinct internal-looking panel or data view.
 
-![Dashboard page rendered in the test browser after the historical login test sequence](/images/blog/from-shodan-to-sqli/1_LZ02PKRCZHqgRjI1dlmu5Q.png)
+![Dashboard page rendered in the test browser after the historical login test sequence](/images/blog/from-shodan-to-sqli/1_LZ02PKRCZHqgRjI1dlmu5Q.webp)
 
 *Dashboard rendered in the test browser after the historical payload sequence. The captured state shows an authenticated-looking application view. It does not identify the account, prove durable authentication, or establish database compromise.*
 
-![Second internal-looking application panel or data view displayed during the test session](/images/blog/from-shodan-to-sqli/1_lwKIbkv_c5dRnE3HtLsBlw.png)
+![Second internal-looking application panel or data view displayed during the test session](/images/blog/from-shodan-to-sqli/1_lwKIbkv_c5dRnE3HtLsBlw.webp)
 
 *A distinct internal-looking panel or data view captured during the same test session. This shows a second application surface that rendered after the described sequence. It does not prove data exfiltration, modification, administrator privileges, persistence, or remediation.*
 

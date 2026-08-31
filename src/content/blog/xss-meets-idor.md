@@ -15,7 +15,7 @@ Shah Kaif collaborated on the original research. Amish Patel and Lay Patel at Ha
 
 The registration form rejected special characters in the full-name field. That was a frontend rule.
 
-![Registration form rejecting special characters in the full-name input field](/images/blog/xss-meets-idor/1_qD1T7WsNoTNQ_vjk-7FOGw.png)
+![Registration form rejecting special characters in the full-name input field](/images/blog/xss-meets-idor/1_qD1T7WsNoTNQ_vjk-7FOGw.webp)
 
 *The browser-based input restriction: markup was rejected at the frontend. This was a client-side rule, not a server-side validation. Intercepting the request after submission bypasses it completely.*
 
@@ -31,7 +31,7 @@ Content-Type: application/x-www-form-urlencoded
 FullName=%3Ch1%3Edisplay-test%3C%2Fh1%3E&Email=tester%40example.invalid&Password=[redacted]
 ```
 
-![Intercepted registration request with the display name field modified to HTML markup before reaching the server](/images/blog/xss-meets-idor/1_dDLYp9D9VyWbUJ6TTujrGQ.png)
+![Intercepted registration request with the display name field modified to HTML markup before reaching the server](/images/blog/xss-meets-idor/1_dDLYp9D9VyWbUJ6TTujrGQ.webp)
 
 *The intercepted registration request. After the frontend rejected special characters, the browser-submitted form was modified before the server saw it. The `FullName` parameter now contained an HTML heading literal.*
 
@@ -49,7 +49,7 @@ Content-Type: application/json
 }
 ```
 
-![Server response confirming account creation with the HTML-shaped display name accepted and stored, and a profile-path derived from it](/images/blog/xss-meets-idor/1_8l28WFqP2t2sXStcoz27Ow.png)
+![Server response confirming account creation with the HTML-shaped display name accepted and stored, and a profile-path derived from it](/images/blog/xss-meets-idor/1_8l28WFqP2t2sXStcoz27Ow.webp)
 
 *The server accepted the HTML-shaped input. The stored `displayName` and the derived `profilePath` both contained the raw angle brackets. The server trusted a value that a frontend rule was supposed to prevent.*
 
@@ -88,7 +88,7 @@ The root causes are separate: the server relied on a browser validation rule, an
 
 I created an author-controlled test blog and opened its three-dot menu. “Email Blog to a Friend” routed to an ASPX page with a numeric query parameter:
 
-![Blog management menu showing the “Email Blog to a Friend” option alongside other blog actions](/images/blog/xss-meets-idor/1_Ts-QklEQHbd8VxUyS4BmAA.png)
+![Blog management menu showing the “Email Blog to a Friend” option alongside other blog actions](/images/blog/xss-meets-idor/1_Ts-QklEQHbd8VxUyS4BmAA.webp)
 
 *The blog context menu exposing the email-preview action. “Email Blog to a Friend” is a feature, not a vulnerability—what matters is which stored blog data it selects when `BlogID` changes.*
 
@@ -118,7 +118,7 @@ Content-Type: text/html; charset=utf-8
 </form>
 ```
 
-![Email preview prefilled with the author-controlled test blog content under the original BlogID](/images/blog/xss-meets-idor/1_UUZy1MlsHL3uf5B2O7D1Gg.png)
+![Email preview prefilled with the author-controlled test blog content under the original BlogID](/images/blog/xss-meets-idor/1_UUZy1MlsHL3uf5B2O7D1Gg.webp)
 
 *Baseline: the email-preview interface populated with the author's own blog content. The prefilled title and body correspond to the `BlogID` of a test blog the author created. This is the expected behavior.*
 
@@ -142,7 +142,7 @@ Content-Type: text/html; charset=utf-8
 </form>
 ```
 
-![Email preview displaying distinctly different blog data after changing only the BlogID parameter to an adjacent value](/images/blog/xss-meets-idor/1_fs4cebCQwdhbZLPNjtAS4g.png)
+![Email preview displaying distinctly different blog data after changing only the BlogID parameter to an adjacent value](/images/blog/xss-meets-idor/1_fs4cebCQwdhbZLPNjtAS4g.webp)
 
 *After changing only the `BlogID` query parameter, the preview populated with different stored blog content. The title, body, and metadata all changed. The server selected and returned a different object without verifying whether the requesting subject should have preview access to it.*
 
@@ -213,11 +213,11 @@ Cookie: [not retained]
 HTTP/1.1 204 No Content
 ```
 
-![Controlled callback event detail captured during the History Preview rendering—showing that stored content executed in the test browser under the platform origin](/images/blog/xss-meets-idor/1_EL66xFbcSV0Mrf56XnYm7Q.png)
+![Controlled callback event detail captured during the History Preview rendering—showing that stored content executed in the test browser under the platform origin](/images/blog/xss-meets-idor/1_EL66xFbcSV0Mrf56XnYm7Q.webp)
 
 *The callback event confirming that stored author-controlled content executed in the History Preview sink. A callback separates script execution from markup merely appearing on screen. The event was observed in the researcher's own test browser under the platform origin.*
 
-![Callback origin and session detail; the controlled marker was delivered from the history-preview rendering context](/images/blog/xss-meets-idor/1_YJm-tFIO2E7D2w7e_Lr2tQ.png)
+![Callback origin and session detail; the controlled marker was delivered from the history-preview rendering context](/images/blog/xss-meets-idor/1_YJm-tFIO2E7D2w7e_Lr2tQ.webp)
 
 *Additional callback detail capturing the rendering origin and session context. This establishes that the execution happened where the history preview rendered, not from a separate page or unrelated request. It does not establish another user's session, cookie usefulness, or cross-account impact.*
 

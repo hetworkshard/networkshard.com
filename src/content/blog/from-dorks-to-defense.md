@@ -5,6 +5,8 @@ date: 2025-11-25
 category: "research"
 tags: ["bug-bounty", "CERT-IN", "recon"]
 readTime: "5 min read"
+cover: "/images/blog/from-dorks-to-defense/1_p0iY_bLGcryt7loqJ2s12Q.webp"
+coverAlt: "Indexed government-domain pages surfaced through targeted search queries"
 pinned: true
 ---
 
@@ -114,11 +116,11 @@ Accept: text/html
 
 That response shape would prove reflection in an HTML text context. It would not prove script execution, persistence, delivery to another user, or impact. Those require their own context-specific evidence. I kept this branch distinct instead of using it to strengthen the SQL claim.
 
-![Terminal and request validation evidence capturing the tested SQL-shaped parameter response against a redacted government endpoint](/images/blog/from-dorks-to-defense/1_p0iY_bLGcryt7loqJ2s12Q.png)
+![Terminal and request validation evidence capturing the tested SQL-shaped parameter response against a redacted government endpoint](/images/blog/from-dorks-to-defense/1_p0iY_bLGcryt7loqJ2s12Q.webp)
 
 *Technical testing evidence retained from the investigation. The capture records visible response behavior against a redacted parameterized endpoint. It documents what was observed during authorized testing, not severity or CERT-In acceptance.*
 
-![Response evidence showing SQL diagnostic output captured during parameter testing](/images/blog/from-dorks-to-defense/1_5d4F_vbMcVmiJidEqPK91Q.jpeg)
+![Response evidence showing SQL diagnostic output captured during parameter testing](/images/blog/from-dorks-to-defense/1_5d4F_vbMcVmiJidEqPK91Q.webp)
 
 *A second diagnostic response associated with parameter-level testing. The old article labelled this "2 SQL Injection," but the evidence shows a response with diagnostic behavior. Whether this represents an independently distinct vulnerability depends on the exact input, endpoint, and root cause—not on a label.*
 
@@ -148,11 +150,11 @@ I recorded only enough fields to show that a real PHP configuration page was pub
 
 The historical notes mention several PHPInfo pages. Without safe per-host artifacts, I will not turn that into a precise affected-host count or imply that each page became an independently accepted report.
 
-![Publicly rendered PHP configuration page discovered through passive search-index review](/images/blog/from-dorks-to-defense/1_GbClUe79xPv9M3own-G4jQ.png)
+![Publicly rendered PHP configuration page discovered through passive search-index review](/images/blog/from-dorks-to-defense/1_GbClUe79xPv9M3own-G4jQ.webp)
 
 *A publicly accessible `phpinfo()` page found through a different search-query family. The capture shows runtime version, loaded modules, and configuration flags. This was information exposure, not code execution—no secret was tested for operational usefulness.*
 
-![Second captured PHP configuration page associated with a distinct endpoint](/images/blog/from-dorks-to-defense/1_CwwUwpGMYV0yHRDyBAVjvQ.png)
+![Second captured PHP configuration page associated with a distinct endpoint](/images/blog/from-dorks-to-defense/1_CwwUwpGMYV0yHRDyBAVjvQ.webp)
 
 *A second captured configuration page. The old article mentions several; this artifact supports that more than one diagnostic page was observed. Whether each became an independently accepted report is not established by this capture alone.*
 
@@ -175,7 +177,7 @@ The technical branches stayed separate in the report. One endpoint's diagnostic 
 
 CERT-In's September 2025 Hall of Fame page lists **Het Patel and Kaif Shah** with “SQL Injection.” That is the narrow documentary link retained for this month; it does not identify the exact endpoint, establish authorization for every test, assign severity, or confirm remediation or retesting.
 
-![CERT-In September 2025 Hall of Fame table with the Het Patel and Kaif Shah entry outlined](/images/blog/from-dorks-to-defense/1_3vdr2a9sNeUeRmFGYdS9bw.jpeg)
+![CERT-In September 2025 Hall of Fame table with the Het Patel and Kaif Shah entry outlined](/images/blog/from-dorks-to-defense/1_3vdr2a9sNeUeRmFGYdS9bw.webp)
 
 *Recognition record: the September 2025 CERT-In page lists Het Patel and Kaif Shah. It documents the entry shown, not every technical claim or a patch status.*
 
@@ -183,7 +185,7 @@ CERT-In's September 2025 Hall of Fame page lists **Het Patel and Kaif Shah** wit
 
 CERT-In's October 2025 Hall of Fame page lists **Shah Kaif and Het Patel** with “SQL Injection.” The ordering differs, but the proof boundary does not: the page documents recognition in October, not which historical request earned it or whether every item in the earlier article was accepted.
 
-![CERT-In October 2025 Hall of Fame table with the Shah Kaif and Het Patel entry outlined](/images/blog/from-dorks-to-defense/1_oT6i9Y-R4OfGCkdW_3e4Sw.jpeg)
+![CERT-In October 2025 Hall of Fame table with the Shah Kaif and Het Patel entry outlined](/images/blog/from-dorks-to-defense/1_oT6i9Y-R4OfGCkdW_3e4Sw.webp)
 
 *Recognition record: the October 2025 CERT-In page lists Shah Kaif and Het Patel. It does not confirm remediation, retesting, or acceptance of unrelated findings.*
 

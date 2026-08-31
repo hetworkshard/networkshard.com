@@ -5,6 +5,8 @@ date: 2026-04-29
 category: "threat-intel"
 tags: ["ssh", "honeypot", "cowrie", "malware", "botnet", "oracle-cloud", "telemetry"]
 readTime: "18 min read"
+cover: "/images/honeypot-dashboard.webp"
+coverAlt: "Honeypot telemetry dashboard — globe with attacker arcs, stats widgets, captured payloads, and a live login feed"
 ---
 
 A few days ago I published a post about [30 days of SSH brute-force telemetry](/blog/ssh-brute-force-telemetry) on my Oracle Cloud VM. 1,595 login attempts, 64 IPs, a rotating cast of bots trying `root:admin` until the heat death of the universe. The conclusion was reassuring: disable password auth, lock the door, enjoy the show through the peephole.
@@ -77,7 +79,7 @@ There was even a login banner:
 
 [**→ Live dashboard**](/honeypot/index.html)
 
-![Honeypot telemetry dashboard — globe with attacker arcs, stats widgets, captured payloads, login feed](/images/honeypot-dashboard.png)
+![Honeypot telemetry dashboard — globe with attacker arcs, stats widgets, captured payloads, login feed](/images/honeypot-dashboard.webp)
 
 Let that ratio sink in. That's one new attacker IP every 7.7 minutes, around the clock, for two straight days. The first bot connected within minutes of port 22 going live. They are *waiting*.
 

@@ -10,6 +10,11 @@
 
 @layer base {
   :root {
+    color-scheme: light;
+    /* Radius system: 0 (structural/editorial squareness) is the default;
+       --radius for soft rectangles (code, images, cards); --radius-pill for dots/tags. */
+    --radius: 6px;
+    --radius-pill: 9999px;
     --background: #fffcf0;
     --header-background: #f2f0e5;
     --foreground: #100f0f;
@@ -31,6 +36,7 @@
   }
 
   [data-theme="dark"] {
+    color-scheme: dark;
     --background: #171816;
     --header-background: #121311;
     --foreground: #f2efe6;
@@ -84,7 +90,7 @@
     top: -3rem;
     z-index: 100;
     padding: 0.5rem 0.875rem;
-    border-radius: 6px;
+    border-radius: var(--radius);
     background: var(--background);
     color: var(--foreground);
     border: 1px solid var(--border);
@@ -119,8 +125,7 @@
 
   p {
     max-width: 100%;
-    text-align: justify;
-    text-align-last: left;
+    text-align: left;
     text-wrap: pretty;
     overflow-wrap: anywhere;
     word-break: normal;
@@ -146,46 +151,13 @@
   transition: none;
 }
 
-.bento-card::before,
-.bento-hero__identity::before {
+.bento-card::before {
   content: none;
 }
 
 .bento-card:hover {
   border-color: var(--border);
   background: transparent;
-}
-
-/* Legacy button classes, reduced to square editorial controls. */
-.btn-neo-primary,
-.btn-neo-outline {
-  @apply inline-flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-semibold transition-colors;
-  border: 1px solid var(--foreground);
-  border-radius: 0;
-  box-shadow: none;
-  font-family: 'Geist Mono', ui-monospace, monospace;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-.btn-neo-primary {
-  background: var(--foreground);
-  color: var(--background);
-}
-
-.btn-neo-outline {
-  background: transparent;
-  color: var(--foreground);
-}
-
-.btn-neo-primary:hover,
-.btn-neo-outline:hover,
-[data-theme="dark"] .btn-neo-primary:hover,
-[data-theme="dark"] .btn-neo-outline:hover {
-  background: var(--primary);
-  border-color: var(--primary);
-  color: var(--primary-foreground);
-  box-shadow: none;
 }
 
 /* Identity Title */
@@ -201,7 +173,7 @@
 .pinned-changelog-dot {
   width: 0.5rem;
   height: 0.5rem;
-  border-radius: 9999px;
+  border-radius: var(--radius-pill);
   background: var(--primary);
   flex-shrink: 0;
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 20%, transparent);
@@ -215,94 +187,6 @@
 /* Ensure blog titles can use Geist Mono when requested */
 .blog-card-title.font-mono {
   font-family: 'Geist Mono', ui-monospace, monospace;
-}
-
-/* Projects: table-like list */
-.projects-table {
-  display: flex;
-  flex-direction: column;
-}
-
-.projects-table > li {
-  border-bottom: 1px solid color-mix(in srgb, var(--border) 55%, transparent);
-}
-
-.projects-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.75rem;
-  padding: 1rem;
-  margin-left: -1rem;
-  margin-right: -1rem;
-  border-radius: 10px;
-  transition: background 0.15s ease;
-}
-
-.projects-row:hover {
-  background: color-mix(in srgb, var(--accent) 22%, var(--background));
-}
-
-@media (min-width: 768px) {
-  .projects-row {
-    grid-template-columns: 1.35fr 1.9fr 1fr;
-    align-items: start;
-    gap: 1.25rem;
-    padding: 1.1rem 1rem;
-  }
-}
-
-.projects-row__title {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.projects-row__path {
-  font-family: 'Geist Mono', ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--foreground) 55%, transparent);
-}
-
-.projects-row__headline {
-  color: color-mix(in srgb, var(--foreground) 92%, transparent);
-}
-
-.projects-row__desc {
-  color: var(--muted-foreground);
-}
-
-.projects-row__meta {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.projects-row__label {
-  font-family: 'Geist Mono', ui-monospace, monospace;
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: color-mix(in srgb, var(--foreground) 55%, transparent);
-}
-
-.projects-row__tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.projects-row__tag {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.1rem 0.45rem;
-  border-radius: 9999px;
-  font-size: 11px;
-  line-height: 1.25;
-  background: color-mix(in srgb, var(--muted) 80%, transparent);
-  color: color-mix(in srgb, var(--foreground) 65%, transparent);
-  border: 1px solid color-mix(in srgb, var(--border) 65%, transparent);
 }
 
 /* About page: skills strip */
@@ -366,14 +250,17 @@
 }
 
 /* Prose styles for blog content */
+/* Prose is its own type tier: larger and airier than the 14px UI chrome,
+   so long-form reading has clear contrast against the interface. */
 .prose {
   color: color-mix(in srgb, var(--foreground) 80%, transparent);
-  @apply leading-relaxed;
+  font-size: 15px;
+  line-height: 1.75;
 }
-.prose h1 { @apply text-2xl font-bold tracking-tight text-foreground mt-8 mb-4; }
-.prose h2 { @apply text-xl font-semibold tracking-tight text-foreground mt-6 mb-3; }
-.prose h3 { @apply text-lg font-semibold text-foreground mt-5 mb-2; }
-.prose p { @apply mb-4; }
+.prose h1 { @apply text-2xl font-bold tracking-tight text-foreground mt-8 mb-4; text-wrap: balance; }
+.prose h2 { @apply text-xl font-semibold tracking-tight text-foreground mt-6 mb-3; text-wrap: balance; }
+.prose h3 { @apply text-lg font-semibold text-foreground mt-5 mb-2; text-wrap: balance; }
+.prose p { @apply mb-4; text-wrap: pretty; }
 .prose ul, .prose ol { @apply mb-4 pl-6; }
 .prose li { @apply mb-1; }
 .prose strong { @apply text-foreground font-semibold; }
@@ -382,16 +269,19 @@
   @apply border-l-2 border-primary pl-4 my-4 italic text-muted-foreground;
 }
 .prose code {
-  @apply font-mono text-sm bg-muted px-1.5 py-0.5 rounded;
+  @apply font-mono text-sm bg-muted px-1.5 py-0.5;
+  border-radius: var(--radius);
 }
 .prose pre {
-  @apply bg-muted border border-border rounded-md p-4 overflow-x-auto my-4;
+  @apply bg-muted border border-border p-4 overflow-x-auto my-4;
+  border-radius: var(--radius);
 }
 .prose pre code {
   @apply bg-transparent p-0;
 }
 .prose img {
-  @apply rounded-md my-4 mx-auto block;
+  @apply my-4 mx-auto block;
+  border-radius: var(--radius);
 }
 .prose hr {
   @apply border-border my-6;
@@ -656,31 +546,53 @@
   }
 }
 
-/* "Let's connect" section */
-.bento-connect,
-.bento-connect:hover {
-  border-radius: 0;
-  border-color: var(--border);
+/* ============================================================
+   Mobile & touch optimizations
+   Desktop (fine pointer / ≥768px sidebar layout) is intentionally
+   left unchanged — these rules only engage on small / touch screens.
+   ============================================================ */
+
+/* Touch devices: 16px inputs stop iOS Safari's focus auto-zoom,
+   and 2.75rem (44px) controls meet the Apple HIG / WCAG 2.5.5
+   minimum tap-target size. Mouse users keep the compact 36px. */
+@media (pointer: coarse) {
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+
+  .square-control {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
 }
 
-.bento-connect .connect-item {
-  color: color-mix(in srgb, var(--foreground) 85%, transparent);
-  transition: color 0.15s ease, transform 0.15s ease;
+/* No-hover (touch): hover feedback never fires, so give the icon
+   controls an :active press state and drop the gray tap flash. */
+@media (hover: none) {
+  .square-control {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .square-control:active {
+    background: var(--foreground);
+    color: var(--background);
+  }
 }
 
-.bento-connect:hover .connect-item {
-  color: var(--foreground);
+/* Keep content clear of the notch / rounded corners in landscape
+   (pairs with viewport-fit=cover). env() resolves to 0 on
+   non-notched and desktop layouts, so max() leaves them untouched. */
+#main-content {
+  padding-left: max(1rem, env(safe-area-inset-left));
+  padding-right: max(1rem, env(safe-area-inset-right));
 }
 
-.bento-connect .connect-icon {
-  width: 14px;
-  height: 14px;
-  flex-shrink: 0;
-  opacity: 0.8;
-}
-
-.bento-connect .connect-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+@media (max-width: 767px) {
+  .site-header__inner,
+  .site-footer__inner {
+    padding-left: max(1rem, env(safe-area-inset-left));
+    padding-right: max(1rem, env(safe-area-inset-right));
+  }
 }

@@ -5,6 +5,8 @@ date: 2026-04-25
 category: "threat-intel"
 tags: ["ssh", "brute-force", "fail2ban", "oracle-cloud", "telemetry"]
 readTime: "6 min read"
+cover: "/images/ssh-attacks-dashboard.webp"
+coverAlt: "SSH attack telemetry dashboard — globe with attacker locations, top countries, and a live feed"
 ---
 
 I provisioned an Oracle Cloud ARM VM a few months ago. It runs Jellyfin, holds my recon tooling, and otherwise sits there breathing quietly into the void. Today, on a whim, I ran `sudo journalctl -u ssh -S "30 days ago"` and grepped for failed logins.
@@ -95,7 +97,7 @@ Once I had the data, I had to look at it on a globe. I asked Claude to put toget
 
 [**→ Live dashboard**](/ssh-attacks/)
 
-![SSH attack telemetry dashboard — globe with attacker locations, side widgets showing top countries and live feed](/images/ssh-attacks-dashboard.png)
+![SSH attack telemetry dashboard — globe with attacker locations, side widgets showing top countries and live feed](/images/ssh-attacks-dashboard.webp)
 
 What you are looking at:
 

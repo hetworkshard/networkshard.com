@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getShardProject } from "../lib/shard-projects";
 
 type ProjectItem = {
   name: string;
@@ -9,42 +10,17 @@ type ProjectItem = {
   href?: string;
 };
 
-const projects: ProjectItem[] = [
-  {
-    name: "ShardC2",
-    description: "Policy-aware command-and-control framework for authorized red team operations. Go server/agent core with an operator dashboard, RBAC, audit logs, encrypted payloads, and built-in safety controls.",
-    tech: ["Go", "PostgreSQL", "Redis", "WebSocket", "Docker"],
-    github: "https://github.com/hett-patell/ShardC2",
-    href: "/shardc2",
-  },
-  {
-    name: "ShardLure",
-    description: "SSH honeypot that clusters bots by HASSH and username playbook instead of IP. Cowrie + journal ingest, intent classification, live globe dashboard, stealth persona with bait files, and STIX 2.1 IOC export.",
-    tech: ["Go", "Python", "SQLite", "Cowrie", "HASSH", "STIX"],
-    github: "https://github.com/hett-patell/ShardLure",
-    href: "/shardlure",
-  },
-  {
-    name: "ShardFlow",
-    description: "Layer-2 LAN workbench for authorized lab use. Discovers every device on the wire (ARP, mDNS, SSDP, OUI) and applies per-target drop, throttle, or silent pcap policies via nftables, tc/IFB, and AF_PACKET ARP poisoning. TUI + JSON-RPC CLI.",
-    tech: ["Go", "Linux", "nftables", "libpcap", "AF_PACKET", "JSON-RPC"],
-    github: "https://github.com/hett-patell/ShardFlow",
-    href: "/shardflow",
-  },
-  {
-    name: "ShardPass",
-    description: "Local-first Chrome MV3 TOTP authenticator with inline autofill, an encrypted local vault, QR / otpauth import, and per-domain account matching for 2FA-heavy workflows.",
-    tech: ["TypeScript", "React", "Tailwind", "Vite", "Chrome MV3"],
-    github: "https://github.com/hett-patell/ShardPass",
-    href: "/shardpass",
-  },
-  {
-    name: "ShardTune",
-    description: "Spotify controller & listening analytics for Chromium. Now Playing with album art, waveform viz, analytics dashboard, friend activity, and Vibe Sync — all computed locally with BYO Client ID.",
-    tech: ["TypeScript", "React", "Tailwind", "Vite", "Chrome MV3"],
-    github: "https://github.com/hett-patell/ShardTune",
-    href: "/shardtune",
-  },
+// Shard* projects are sourced from the single catalogue in lib/shard-projects.ts
+// (the per-project /shard* pages read the same data), so their metadata lives in
+// exactly one place instead of being duplicated — and drifting — here.
+const fromShard = (slug: string): ProjectItem => {
+  const p = getShardProject(slug);
+  if (!p) throw new Error(`Unknown shard project referenced in projects.astro: ${slug}`);
+  return { name: p.name, description: p.description, tech: p.tech, github: p.github, href: `/${slug}` };
+};
+
+// Non-Shard work that only appears in this listing.
+const otherProjects: ProjectItem[] = [
   {
     name: "SSH Attack Telemetry",
     description: "Live globe visualising 30 days of SSH brute-force attempts against my exposed Oracle Cloud VM — 1,595 attempts, 64 unique IPs, 20+ countries, all bounced off pubkey-only auth.",
@@ -76,22 +52,12 @@ const projects: ProjectItem[] = [
   },
 ];
 
-const tools: ProjectItem[] = [
-  {
-    name: "ShardShell",
-    description: "Refined PHP post-exploitation shell for authorized red team engagements, with separate Linux and Windows variants tuned to OS-native recon, priv-esc, and log-clearing. Ships with a Python build-time obfuscator and self-decrypting loader for AV evasion.",
-    tech: ["PHP", "Python", "Linux", "Windows"],
-    github: "https://github.com/hett-patell/ShardShell",
-    href: "/shardshell",
-  },
-  {
-    name: "ShardPet",
-    description: "Chromium MV3 extension that drops 1-3 animated Gen 5 Pokemon onto every page, with a per-hostname productivity nag that triggers a fullscreen 'get back to work' overlay. Shadow-DOM isolated, GPU-only animation, offline after first sprite cache.",
-    tech: ["TypeScript", "Vite", "Vitest", "Chrome MV3", "Shadow DOM"],
-    github: "https://github.com/hett-patell/ShardPet",
-    href: "/shardpet",
-  },
+const projects: ProjectItem[] = [
+  ...["shardc2", "shardlure", "shardflow", "shardpass", "shardtune"].map(fromShard),
+  ...otherProjects,
 ];
+
+const tools: ProjectItem[] = ["shardshell", "shardpet"].map(fromShard);
 ---
 
 <BaseLayout

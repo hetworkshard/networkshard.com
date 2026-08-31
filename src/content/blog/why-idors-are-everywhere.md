@@ -44,7 +44,7 @@ Content-Type: text/html; charset=utf-8
 
 The values are inert representations of the visible fields, not a byte-for-byte response. The important baseline was that `INV-016`, `ORDER-A`, `CUSTOMER-A`, and `AMOUNT-A` belonged to one rendered invoice reached from the test account dashboard.
 
-![Test account invoice print page showing the baseline invoice fields—the invoice the account was meant to access](/images/blog/why-idors-are-everywhere/1_QiG3-3uCdmdeR9J5xOAHNw.png)
+![Test account invoice print page showing the baseline invoice fields—the invoice the account was meant to access](/images/blog/why-idors-are-everywhere/1_QiG3-3uCdmdeR9J5xOAHNw.webp)
 
 *The authenticated test account's own invoice print page. This is the baseline document: the account had a legitimate relationship to this invoice, and rendering it was the expected authorization outcome. Dummy test data is visible in the account and transaction fields.*
 
@@ -84,7 +84,7 @@ The page retained the same invoice template but returned a distinct set of value
 
 I stopped after establishing that one changed identifier selected a distinct invoice-shaped object. I did not continue through a range, estimate scale, download a collection, or try update and deletion routes.
 
-![Invoice print page returned after changing only the sequential identifier from INV-016 to INV-017 within the same authenticated session](/images/blog/why-idors-are-everywhere/1_6pz8TufSLIgbyl6L2znOtw.png)
+![Invoice print page returned after changing only the sequential identifier from INV-016 to INV-017 within the same authenticated session](/images/blog/why-idors-are-everywhere/1_6pz8TufSLIgbyl6L2znOtw.webp)
 
 *A different invoice page was returned after changing one path parameter. The rendered invoice number, order reference, and recipient marker all differ from the baseline. The same session produced a 200 response with distinct data—the server did not deny the request. Whether this invoice belongs to another customer or is simply an unowned test entry is not proven by this capture alone.*
 

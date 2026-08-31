@@ -12,6 +12,8 @@ const blog = defineCollection({
     category: z.enum(CATEGORY_IDS),
     tags: z.array(z.string()).optional(),
     readTime: z.string().optional(),
+    cover: z.string().optional(),
+    coverAlt: z.string().optional(),
     draft: z.boolean().optional().default(false),
     pinned: z.boolean().optional().default(false),
   }),
