@@ -47,7 +47,7 @@ subjack \
 
 The important flag was `-c`: it selected the fingerprint database used to classify provider error responses. The scanner associated one redacted host with an S3 bucket fingerprint. That was an automated label based on a response pattern, not proof of a CNAME, a deleted bucket, or the ability to claim anything.
 
-![Automated scanner output flagging a host as a possible S3 bucket takeover candidate](/images/blog/subdomain-takeover/1_stBzv0SOC1jbQJFOrxpHqQ.png)
+![Automated scanner output flagging a host as a possible S3 bucket takeover candidate](/images/blog/subdomain-takeover/1_stBzv0SOC1jbQJFOrxpHqQ.webp)
 
 *Scanner output associating a host with an S3 bucket takeover fingerprint. The tool labelled one host as `[S3 BUCKET]` based on a response pattern — a prioritization lead, not proof of DNS delegation, provider ownership, a missing resource, external claimability, or takeover.*
 
@@ -104,7 +104,7 @@ done
 
 The historical notes preserve no CNAME answer and at least one TXT value. They do not preserve complete A/AAAA answers, TTL history, resolver identity, or provider-side configuration. So the narrow conclusion is that the manual check did not reveal the CNAME chain expected by the S3 hypothesis—not that every possible routing mechanism was absent.
 
-![Manual dig output showing no CNAME answer and a TXT record for the investigated hostname](/images/blog/subdomain-takeover/1_076ZcP-S1SucdfUyhwY1-w.png)
+![Manual dig output showing no CNAME answer and a TXT record for the investigated hostname](/images/blog/subdomain-takeover/1_076ZcP-S1SucdfUyhwY1-w.webp)
 
 *Manual DNS lookup retained from the investigation. The CNAME answer was empty and at least one TXT value was present. This showed active-looking configuration at the hostname — but TXT data does not route HTTP traffic, identify an S3 bucket, prove a resource exists, or universally stop another account from binding a domain.*
 

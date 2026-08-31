@@ -44,15 +44,20 @@ const jsonLdBlocks: JsonLd[] = [...providedLd, ...(crumbLd ? [crumbLd] : [])];
 <html class="bg-background text-foreground" lang="en-US">
 <head>
   <meta charset="utf-8" />
+  <meta name="theme-color" content="#fffcf0" />
   <script is:inline>
     (function () {
       const theme =
         localStorage.getItem('theme') ||
         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       document.documentElement.setAttribute('data-theme', theme);
+      // Keep the mobile browser chrome (address bar) matching the active theme.
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute('content', theme === 'dark' ? '#171816' : '#fffcf0');
     })();
   </script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content={description} />
   <meta name="keywords" content="cybersecurity, penetration testing, VAPT, vulnerability assessment, security research, ethical hacking, red teaming, Het Patel, networkshard" />
   <meta name="author" content="Het Patel" />
@@ -196,6 +201,9 @@ const jsonLdBlocks: JsonLd[] = [...providedLd, ...(crumbLd ? [crumbLd] : [])];
       const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
       localStorage.setItem('theme', next);
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute('content', next === 'dark' ? '#171816' : '#fffcf0');
     });
   </script>
 

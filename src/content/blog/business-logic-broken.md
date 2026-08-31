@@ -74,7 +74,7 @@ CHALLENGE-001 + 0002 → 400 Invalid OTP
 
 **Not proved:** I did not complete the code space, recover a valid OTP, reset another person's password, or access another account. Response behavior alone does not reveal hidden attempt counters, and it does not support an arbitrary-user takeover claim.
 
-![Repeated OTP verification attempts accepted during the captured test window, showing no visible throttle or lockout response](/images/blog/business-logic-broken/1_ISlZNs5U8yhWUcYqQ53hJA.png)
+![Repeated OTP verification attempts accepted during the captured test window, showing no visible throttle or lockout response](/images/blog/business-logic-broken/1_ISlZNs5U8yhWUcYqQ53hJA.webp)
 
 *OTP verification request sequence from the captured session. Multiple guesses against one controlled challenge were accepted for processing without a visible rate-limit response—a significant control gap in a four-digit space.*
 
@@ -86,7 +86,7 @@ CHALLENGE-001 + 0002 → 400 Invalid OTP
 
 The test account showed a zero balance.
 
-![Wallet UI showing zero balance for the test account and exposing the wallet request action](/images/blog/business-logic-broken/1_X1WTxTOoDBUhR-gQQ3KS4Q.png)
+![Wallet UI showing zero balance for the test account and exposing the wallet request action](/images/blog/business-logic-broken/1_X1WTxTOoDBUhR-gQQ3KS4Q.webp)
 
 *Baseline wallet state: zero balance with a visible request workflow. The exposed interface matters because the product offered a wallet action before checking whether funds were available.*
 
@@ -114,7 +114,7 @@ Content-Type: application/json
 }
 ```
 
-![Intercepted insufficient-balance response from the wallet request endpoint](/images/blog/business-logic-broken/1_-jCinslcxVfUcUe5HnmM3w.png)
+![Intercepted insufficient-balance response from the wallet request endpoint](/images/blog/business-logic-broken/1_-jCinslcxVfUcUe5HnmM3w.webp)
 
 *The captured server rejection. The actual server decision—insufficient funds—was correct. The problem came next: tampering with what the browser saw.*
 
@@ -143,7 +143,7 @@ Content-Type: application/json
 }
 ```
 
-![Follow-on transaction-shaped request issued by the client, exposing mutable userId, amount, and transaction-type fields](/images/blog/business-logic-broken/1__5KiJYxi6IGomC71-Xi8SA.png)
+![Follow-on transaction-shaped request issued by the client, exposing mutable userId, amount, and transaction-type fields](/images/blog/business-logic-broken/1__5KiJYxi6IGomC71-Xi8SA.webp)
 
 *The browser emitted a follow-on request containing user, amount, and type fields. The presence of `userId` and `type` in a client-originated request is itself a design concern: the server should derive those values from an authoritative source.*
 
@@ -164,11 +164,11 @@ Content-Type: application/json
 }
 ```
 
-![Server response indicating the modified transaction request outcome](/images/blog/business-logic-broken/1_3xHhbSWjzCG7U4h__Ft6iw.png)
+![Server response indicating the modified transaction request outcome](/images/blog/business-logic-broken/1_3xHhbSWjzCG7U4h__Ft6iw.webp)
 
 *The captured response indicating the operation result. The server visibly accepted the client-supplied fields, but whether those values were persisted to an authoritative ledger is not separately proven by this capture.*
 
-![Wallet UI displayed after the controlled test sequence](/images/blog/business-logic-broken/1_NY0xBDOplm6UryRAO7dwFA.png)
+![Wallet UI displayed after the controlled test sequence](/images/blog/business-logic-broken/1_NY0xBDOplm6UryRAO7dwFA.webp)
 
 *The test account's UI displayed a changed balance after the manipulated transaction flow. This proves the client rendered a different value. It does not, by itself, prove that the server's authoritative ledger was altered, that the balance survived a clean session, or that the displayed value could be spent, transferred, or withdrawn.*
 
@@ -207,7 +207,7 @@ Content-Type: image/svg+xml
 --BOUNDARY--
 ```
 
-![Captured upload request showing filename and content-type manipulation from JPEG to SVG](/images/blog/business-logic-broken/1_J-RfkqTIfbZVjgCw4kyaEw.png)
+![Captured upload request showing filename and content-type manipulation from JPEG to SVG](/images/blog/business-logic-broken/1_J-RfkqTIfbZVjgCw4kyaEw.webp)
 
 *The intercepted multipart form request. The filename was changed from a `.jpg` extension to `.svg`, the part's `Content-Type` was changed from `image/jpeg` to `image/svg+xml`, and the JPEG image data was replaced with controlled SVG markup. The upload was accepted—the server trusted client-supplied MIME metadata.*
 
@@ -231,7 +231,7 @@ SVG accepted and stored
 controlled alert executes
 ```
 
-![Controlled SVG alert firing in the test browser after the avatar upload was accepted and rendered](/images/blog/business-logic-broken/1_Op1wySX9A6LJ526vt5tzUQ.png)
+![Controlled SVG alert firing in the test browser after the avatar upload was accepted and rendered](/images/blog/business-logic-broken/1_Op1wySX9A6LJ526vt5tzUQ.webp)
 
 *The SVG executed in a controlled test-browser context. This proves script-capable content was stored and rendered. It does not prove that other users, administrators, or HR staff saw or executed the payload, that any cookie or session was stolen, or that the execution persisted across sessions.*
 
@@ -247,7 +247,7 @@ controlled alert executes
 
 The profile update flow sent an OTP to verify a mobile number.
 
-![Mobile number verification entry UI before completing the OTP challenge](/images/blog/business-logic-broken/1_nsKwQTnOBSCpAzGjznbOdw.png)
+![Mobile number verification entry UI before completing the OTP challenge](/images/blog/business-logic-broken/1_nsKwQTnOBSCpAzGjznbOdw.webp)
 
 *Baseline verification UI exposed in the test account. The mobile update and verification workflows were visible before any manipulation, showing both the phone-number input and the OTP challenge prompt.*
 
@@ -277,7 +277,7 @@ Content-Type: application/json
 }
 ```
 
-![Intercepted verification failure after submitting an invalid OTP code](/images/blog/business-logic-broken/1_kL9iuOuwK-2WNXx130-Giw.png)
+![Intercepted verification failure after submitting an invalid OTP code](/images/blog/business-logic-broken/1_kL9iuOuwK-2WNXx130-Giw.webp)
 
 *The server correctly rejected the initial invalid code. The manipulated success response that followed was a client-side change, not a server-side bypass of the OTP verification logic.*
 
@@ -293,7 +293,7 @@ Content-Type: application/json
 }
 ```
 
-![Success-shaped response manipulating the mobile OTP verification flow; the error text remains visible despite success:true](/images/blog/business-logic-broken/1_pzllGmbVBjXo5OLoO7nx_A.png)
+![Success-shaped response manipulating the mobile OTP verification flow; the error text remains visible despite success:true](/images/blog/business-logic-broken/1_pzllGmbVBjXo5OLoO7nx_A.webp)
 
 *The browser received a tampered response containing `"success": true` while the error text remained present. The frontend trusted the boolean flag and advanced, issuing a profile-update request with `mobileVerified: true`.*
 
@@ -309,7 +309,7 @@ Content-Type: application/json
 }
 ```
 
-![Profile update request containing the client-supplied mobileVerified flag](/images/blog/business-logic-broken/1_d2PqU5MjQMfPVS3k2VbvFA.png)
+![Profile update request containing the client-supplied mobileVerified flag](/images/blog/business-logic-broken/1_d2PqU5MjQMfPVS3k2VbvFA.webp)
 
 *The profile update payload included `mobileVerified: true`—a flag the server should derive, not accept from the client. The update response that followed returned a user object with the verification flag set to true.*
 
@@ -339,7 +339,7 @@ profile update includes mobileVerified=true
 success-shaped reply + verified badge in current UI
 ```
 
-![Phone Verified badge displayed in the test account UI after the manipulated verification flow](/images/blog/business-logic-broken/1_R0In7t2awqNoIebmU9uRuA.png)
+![Phone Verified badge displayed in the test account UI after the manipulated verification flow](/images/blog/business-logic-broken/1_R0In7t2awqNoIebmU9uRuA.webp)
 
 *The test-account UI displayed a verified-phone state after the sequence. Whether this represented a durable server-side state change, response reflection, or local client state is not distinguished by the retained evidence. A clean logout/login check and a downstream verified-only action would be needed to confirm persistence.*
 

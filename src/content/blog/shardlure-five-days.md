@@ -5,6 +5,8 @@ date: 2026-05-26
 category: "threat-intel"
 tags: ["ssh", "honeypot", "cowrie", "shardlure", "malware", "botnet", "oracle-cloud", "telemetry", "golang"]
 readTime: "22 min read"
+cover: "/images/shardlure-dashboard.webp"
+coverAlt: "ShardLure telemetry dashboard — globe with attacker arcs, stats widgets, payload capture, and a live feed"
 ---
 
 Last month I ran a [48-hour Cowrie honeypot experiment](/blog/ssh-honeypot-48-hours) and catalogued the zoo that walked in. 38,208 events, 12 malware samples, three competing campaigns. It was a good time. The conclusion was "the internet is farming you" and also "this is deeply entertaining."
@@ -43,7 +45,7 @@ you      -> port 2222 (SSH)  -> real admin access via keys/Tailscale
 
 The whole thing is about 4,000 lines of Go plus the Python installer. The dashboard is a single HTML file with `globe.gl` rendering NASA's Black Marble texture, because I have learned nothing from the last post about what constitutes "overkill."
 
-![ShardLure telemetry dashboard — globe with attacker arcs, stats widgets, payload capture, live feed](/images/shardlure-dashboard.png)
+![ShardLure telemetry dashboard — globe with attacker arcs, stats widgets, payload capture, live feed](/images/shardlure-dashboard.webp)
 
 * * *
 
